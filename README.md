@@ -1,4 +1,6 @@
-# 3D Multi-Robot Patrolling with a Two-Level Coordination Strategy
+# 3dpatrolling
+
+## 3D Multi-Robot Patrolling with a Two-Level Coordination Strategy
 
 **Authors: Luigi Freda, Mario Gianni, Fiora Pirri, Abel Gawel, Renaud Dubé, Roland Siegwart, Cesar Cadena** 
 
