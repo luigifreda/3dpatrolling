@@ -14,6 +14,6 @@ More to come!
 
 ### Related Publications:
 
-L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena
-*3D Multi-Robot Patrolling with a Two-Level Coordination Strategy*
+L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena  
+*3D Multi-Robot Patrolling with a Two-Level Coordination Strategy*  
 submitted to Autonomous Robots Journal
