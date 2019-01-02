@@ -19,3 +19,10 @@ More to come!
 L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena  
 *[3D Multi-Robot Patrolling with a Two-Level Coordination Strategy](http://www.luigifreda.com/pubs/Freda%20-%203D%20Multi-Robot%20Patrolling%20with%20a%20Two-Level%20Coordination%20Strategy%20-%20AURO%202018%20-%20pub.pdf)*  
 Autonomous Robots, Springer, 2018.
+
+
+### Videos 
+
+Videos and other material can be found on the [project website](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/). 
+
+
