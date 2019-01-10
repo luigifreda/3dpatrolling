@@ -6,7 +6,7 @@
 
 **Maintainer: Luigi Freda** 
 
-Our paper has been accepted for publication at [Autonomous Robots](http://www.springer.com/10514). We are currently working to extract the code from our [TRADR](http://github.com) repository and make it a usable in a self-contained simulation framework. This will be available very soon within a few weeks.
+Our paper has been accepted for publication in [Autonomous Robots](http://www.springer.com/10514). We are currently working to extract the code from our [TRADR](http://github.com) repository and make it a usable in a self-contained simulation framework. This will be available very soon within a few weeks.
 
 This repository *3dpatrolling* will provide a C++ implementation behind our paper titled *3D Multi-Robot Patrolling with a Two-Level Coordination Strategy*. It will contains different ROS packages which allow to test the proposed multi-robot strategy within a V-REP simulation environment.
 
