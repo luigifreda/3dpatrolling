@@ -118,7 +118,7 @@ class MainWidget(QWidget):
         self.btn_patrolling.setToolTip('Launch the patrolling system.')     
 
         self.btn_patrolling_world = QPushButton('Select patrol world', self)
-        self.btn_patrolling_world.setToolTip('Select your desired patrolling world. A default world is already set in the script sim_launcher_patrolling.')             
+        self.btn_patrolling_world.setToolTip('Select a patrolling world in one of the subfolder of maps. A default world is already set in the script sim_launcher_patrolling.')             
 
         self.checkbtn_patrolling_enable = QCheckBox('Enable patrolling',self)
         self.checkbtn_patrolling_enable.setToolTip('Enable/disable the patrolling agent. Disabling can be useful for building and saving a map in a selected world (please, read the documentation).')
