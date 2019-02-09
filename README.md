@@ -16,9 +16,9 @@ Please cite this work if you make use of our system in your projects:
 *L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena*   
 Autonomous Robots, Springer, 2018.
 
-### Project website 
+### Project webpage 
 
-Videos and other information can be found on the [project website](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/). 
+Videos and other information can be found on the [project webpage](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/).  
 
 
 <center>
