@@ -86,7 +86,7 @@ The tooltips will give you hints on how to use the different options.
 
 * You can select the patrolled scenario by modifying the input variable `WORLD_NAME` in the script `sim_launcher_patrolling` (**please read also the following sections**).
 
-You can find some nice simulation videos on the [project website](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/). 
+You can find some nice simulation videos on the [project webpage](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/). 
 
 
 ### V-REP modes
