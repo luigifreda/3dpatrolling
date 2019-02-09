@@ -13,7 +13,7 @@ This repository provides part of the C++ implementation behind our paper titled 
 Please cite this work if you make use of our system in your projects:
  
 **[3D Multi-Robot Patrolling with a Two-Level Coordination Strategy](http://www.luigifreda.com/pubs/Freda%20-%203D%20Multi-Robot%20Patrolling%20with%20a%20Two-Level%20Coordination%20Strategy%20-%20AURO%202018%20-%20pub.pdf)**   
-*L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena*
+*L. Freda, M. Gianni, F. Pirri, A. Gawel, R. Dubé, R. Siegwart, C. Cadena*   
 Autonomous Robots, Springer, 2018.
 
 ### Project website 
