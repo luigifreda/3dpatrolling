@@ -1,0 +1,23 @@
+<package>
+  <description brief="trajectory_control">
+
+     trajectory_control
+
+  </description>
+  <author>Luigi Freda</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/trajectory_control</url>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="sensor_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="tf"/>
+  <depend package="geometry_msgs"/>
+  <depend package="nav_msgs"/>
+  <depend package="nifti_robot_driver_msgs"/>
+  <depend package="trajectory_control_msgs"/>
+</package>
+
+

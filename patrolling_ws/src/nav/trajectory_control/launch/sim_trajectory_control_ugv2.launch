@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>	
+
+<launch>
+  <arg name="robot_name" default="ugv2" />
+  <arg name="simulator" value="vrep" />
+  
+  <arg name="use_mapper" default="false" /> <!-- boolean: true, false -->
+  <arg name="odom_frame_id" default="/odom" unless="$(arg use_mapper)"/>
+  <arg name="odom_frame_id" default="/odom_$(arg robot_name)" if="$(arg use_mapper)"/>
+
+  <arg name="use_at" default="false" /> <!-- boolean: true, false     use adaptive traversability -->
+ 
+  <arg name="use_teleop_mux" default="false" /> <!-- boolean: true, false     use teleop mux -->  
+      
+  <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
+      
+      
+  <include file="$(find trajectory_control)/launch/sim_trajectory_control_ugv1.launch" >
+      <arg name="respawn_value" value="$(arg respawn_value)" />
+      <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="use_mapper" value="$(arg use_mapper)" />
+      <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+      <arg name="use_at" value="$(arg use_at)" />            
+      <arg name="use_teleop_mux" value="$(arg use_teleop_mux)" />    
+  </include>
+      
+</launch>
+
