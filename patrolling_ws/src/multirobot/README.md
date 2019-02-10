@@ -59,10 +59,10 @@ or
 
 **Qt GUI**
 
-You can also launch the patrolling system by using a pyQt GUI (python3 required, please read below before starting). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:     
+You can also launch the patrolling system by using a PyQt GUI (python3 required, please read below before starting). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:     
 `$ ./main.py` 
 
-The tooltips will give you hints on how to use the different options. 
+The tooltips will give you hints on how to use the different options. You can find further information below. 
 
 **What is going to happen?**
 
@@ -96,6 +96,8 @@ V-REP can be launched in different modes. To this aim, you can use the input var
 * *1*: headless mode (hidden) with automatic start (less computational demanding)
 * *2*: normal mode with automatic start
 
+If you use the Qt GUI, the option `V-REP mode` allows selecting the value of the variable `LAUNCH_VREP_MODE`.
+
 ----
 ## Patrolling scenarios  
 
@@ -128,7 +130,7 @@ alt="V-REP simulation 3dpatrolling" height="150" border="1" />
 
 If you want to build and save a new volumetric map, first, you have to move the robot around and, then, save the built map. After this process, you can reload the saved map. In particular, you can perform this process by following these steps:  
 
-1. Set the variable `ENABLE_PATROLLING=0` in the script `sim_launcher_patrolling` (this will disable the automatic launch of the patrolling agent nodes).
+1. Set the variable `ENABLE_PATROLLING=0` in the script `sim_launcher_patrolling` (this will disable the automatic launch of the patrolling agent nodes). 
 
 2. Run the script:   
 `$ rosrun patrolling3d_sim sim_launcher_patrolling`    
@@ -138,19 +140,23 @@ With patrolling disabled, you can freely move robot `ugvi` around by using the `
 
 4. Once you have recorded the map and the trajectory, you have to organize their files as explained in the previous section *"Patrolling scenarios"*.
 
-**N.B.:** please, note that the command lines for loading a map are already included in script `sim_launcher_patrolling`.
+*N.B.:* please, note that the command lines for loading a map are already included in script `sim_launcher_patrolling`.    
 
 You can use the scripts `save_map` and `load_map` for saving and loading a map respectively. In particular, the following commands are used within the scripts to save and load a map:
 * save the map (if you are using `ugv1`):   
 `$ rosservice call /volumetric_mapping_ugv1/save_map "file_path: '/tmp/map.bt'"  `   
 or (for a "shared" mapping system)
-`$ rosservice call /volumetric_mapping/save_map "file_path: '/tmp/map.bt'"  `  
-
+`$ rosservice call /volumetric_mapping/save_map "file_path: '/tmp/map.bt'"  ` 
 
 * load a saved map (if you are using `ugv1`):  
 `$ rosservice call /volumetric_mapping/load_map "file_path: '/tmp/map.bt'"  `  
 or (for a "shared" mapping system)   
 `$ rosservice call /volumetric_mapping_ugv1/load_map "file_path: '/tmp/map.bt'"  `  
+
+*N.B.:* If you use the Qt GUI:   
+* The checkbox `Enable patrolling` allows selecting the value of the variable `ENABLE_PATROLLING`.   
+* The button `Save map` allows saving the current map.   
+* The button `Load map` allows loading a saved map.
 
 ----
 ## How to create a new graph 
@@ -159,10 +165,11 @@ You can save a graph by following these steps:
 * Enter in the script `patrolling3d_sim/scripts/sim_launcher_patrolling` and set the variables:   
 `ENABLE_PATROLLING=0`   
 `BUILD_GRAPH_ON_START="true"   `   
-
 * Then open a new terminal, source the tradr workspace and this workspace, and then run:   
 `$ roscd patrolling3d_sim/scripts`   
 `$ ./sim_launcher_patrolling`   
+
+N.B.: if you use the Qt GUI, the checkboxes `Enable patrolling` and `Build graph on start` allow setting the values of the variable `ENABLE_PATROLLING` and `BUILD_GRAPH_ON_START` respectively.
 
 When RVIZ is ready in front of you: 
 * add your waypoints on the RVIZ interface: for adding a new point (1) press the key 'M' and then (2) stick a new marker on the green point cloud.
@@ -180,20 +187,22 @@ alt="3dpatrolling - RVIZ and V-REP" border="1" /></a>
 
 
 You could also **build your graph interactively** and then immeditely start the patrolling. This can be done in a very similar way by: 
-* first, setting the following variables in the script `sim_launcher_patrolling`:   
+* First, setting the following variables in the script `sim_launcher_patrolling`:   
 `ENABLE_PATROLLING=1`   
 `BUILD_GRAPH_ON_START="true"`   
-* then, you can set your desired `WORLD_NAME`
-* next, run the script `sim_launcher_patrolling` and repeat the procedure above once RVIZ is ready and the maps have been loaded.
-* once you are ready, select the action `Patrolling - send task` and the robots will start patrolling the assigned graph.
+* Then, you can set your desired `WORLD_NAME`
+* Next, run the script `sim_launcher_patrolling` and repeat the procedure above once RVIZ is ready and the maps have been loaded.
+* Once you are ready, select the action `Patrolling - send task` and the robots will start patrolling the assigned graph.
 
-N.B.: The essential nodes (needed to build the graph) are automatically called in the script `sim_launcher_patrolling`. In particular, these can be manually launched with the following command:   
+*N.B.*: The essential nodes (needed to build the graph) are automatically called in the script `sim_launcher_patrolling`. In particular, these can be manually launched with the following command:   
 `$ roslaunch patrolling_build_graph build_graph.launch map:=<name of your environment>`   
+
+*N.B.*: if you use the Qt GUI, the checkboxes `Enable patrolling` and `Build graph on start` allow selecting the values of the variable `ENABLE_PATROLLING` and `BUILD_GRAPH_ON_START` respectively.
 
 ----
 ## How to create a new scenario 
 
-1) Open a new terminal a run the following commands 
+1) Open a new terminal and run the following commands 
 `$ roscd patrolling3d_sim`  
 `$ cd maps`   
 `$ mkdir <your-awesome-scenario-name>`   
@@ -217,6 +226,8 @@ The node robot_trajectory_saver (in the package `robot_trajectory_saver`) implem
 
 **N.B.**: the required trajectory loading is automatically called in the main script `sim_launcher_patrolling`. The trajectory saving can be called by using the script `save_map`.
 
-
+*N.B.:* If you use the Qt GUI:   
+* The button `Save map` allows saving the current map and trajectories of `ugv1` and `ugv2`.   
+* The button `Load map` allows loading some saved map and trajectories (used by the traversability analysis).
 
 
