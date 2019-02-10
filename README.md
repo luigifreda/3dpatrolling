@@ -35,11 +35,11 @@ We designed and tested the framework under **Ubuntu 14.04**. We recently ported 
 ## How to install and compile 3dpatrolling
 
 Here you can find a quick install procedure (tested under *Ubuntu 16.04*). Open a new terminal and get into the root folder of this repo. Run the following commands: 
-* install V-REP, ROS dependencies and everything is required
+* install V-REP, ROS dependencies and everything is required   
 `$ ./install.sh`
-* compile the two workspaces `mapping_ws` and `patrolling_ws`
+* compile the two workspaces `mapping_ws` and `patrolling_ws`   
 `$ ./compile-all.sh`
-* source the workspaces by using 
+* source the workspaces by using   
 `$ source source-all.bash`
 
 Now, you're ready to test the *patrolling system* or *the path planner* (see the next sections). If something goes wrong, please, sumbit an issue. 
@@ -62,13 +62,13 @@ You can find some manual installation details in the file [INSTALL.md](./INSTALL
 
 Open a new terminal and from the root folder of this repo you can:
 
-- source the workspaces by using the command
+- source the workspaces by using the command   
 `$ source source-all.bash`
 
-- clean the workspaces by running
+- clean the workspaces by running   
 `$ ./clean-all.sh `
 
-- compile all the workspaces
+- compile all the workspaces    
 `$ ./compile-all.sh `
 
 * launch the patrolling or the path planner systems by using a **PyQt GUI** (python3 required, please read the documentation below before starting)   
