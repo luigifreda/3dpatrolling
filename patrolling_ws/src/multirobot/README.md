@@ -160,8 +160,8 @@ or (for a "shared" mapping system)
 
 *N.B.:* If you use the Qt GUI:   
 * The checkbox `Enable patrolling` allows selecting the value of the variable `ENABLE_PATROLLING`.   
-* The button `Save map` allows saving the current map.   
-* The button `Load map` allows loading a saved map.
+* The button `Save map` allows saving the current maps (this launches the script `save_map`).   
+* The button `Load map` allows loading a saved map (this launches the script `load_map`).
 
 ----
 ## How to create a new graph 
@@ -230,7 +230,7 @@ The node robot_trajectory_saver (in the package `robot_trajectory_saver`) implem
 **N.B.**: the required trajectory loading is automatically called in the main script `sim_launcher_patrolling`. The trajectory saving can be called by using the script `save_map`.
 
 *N.B.:* If you use the Qt GUI:   
-* The button `Save map` allows saving the current map and trajectories of `ugv1` and `ugv2`.   
+* The button `Save map` allows saving the current maps and the trajectories of `ugv1` and `ugv2`.   
 * The button `Load map` allows loading some saved map and trajectories (used by the traversability analysis).
 
 
