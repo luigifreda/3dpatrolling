@@ -23,7 +23,7 @@ Videos and further information can be found on the [project webpage](https://sit
 
 <center>
 <img src="images/two-floor-ring.gif"
-alt="V-REP simulation 3dpatrolling" height="200" border="1" /> <img src="images/3d_patrolling.png" alt="V-REP simulation 3dpatrolling" height="200" border="1" />
+alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/3d_patrolling_corridor.png" alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/3d_patrolling.png" alt="V-REP simulation 3dpatrolling" height="150" border="1" />
 </center>
 
 ----
