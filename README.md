@@ -71,7 +71,7 @@ Open a new terminal and from the root folder of this repo you can:
 - compile all the workspaces    
 `$ ./compile-all.sh `
 
-* launch the patrolling or the path planner systems by using a **PyQt GUI** (python3 required, please read the documentation below before starting)   
+- launch the patrolling or the path planner systems by using a **PyQt GUI** (python3 required, please read the documentation below before starting)   
 `$ ./main.py` 
 
 Once you have sourced the workspaces, you're ready to test the *patrolling system* and the *path planner* (see the next sections).
