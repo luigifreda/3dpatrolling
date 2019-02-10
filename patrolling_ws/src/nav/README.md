@@ -56,9 +56,13 @@ or
 **Qt GUI**
 
 You can also launch the path planner system by using a pyQt GUI (python3 required, please read below before starting). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:  
-`$ ./main.py` 
+`$ ./main.py`  
 
-The tooltips will give you hints on how to use the different options. 
+Once the GUI shows up:  
+1) press the button `Launch navigation` (this launches the script `sim_launcher_navigation` behind the curtains).    
+3) once you are happy, you can kill all the nodes and V-REP by using the button `Kill` (this launches the script `kill_vrep_sim`).   
+
+The tooltips will give you hints on how to use the different options. Please. read below for further information.
 
 
 **What is going to happen?**
@@ -79,6 +83,8 @@ V-REP can be launched in different modes. To this aim, you can use the input var
 * *0*: normal mode (you have to press the button play to start)
 * *1*: headless mode (hidden) with automatic start (less computational demanding)
 * *2*: normal mode with automatic start
+
+The option `V-REP mode` on the Qt GUI allows selecting the value of the variable `LAUNCH_VREP_MODE`.
 
 ---
 ## RVIZ Interface 

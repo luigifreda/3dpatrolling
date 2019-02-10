@@ -59,10 +59,15 @@ or
 
 **Qt GUI**
 
-You can also launch the patrolling system by using a PyQt GUI (python3 required, please read below before starting). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:     
-`$ ./main.py` 
+You can also launch the patrolling system by using our PyQt GUI (python3 required). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:     
+`$ ./main.py`  
 
-The tooltips will give you hints on how to use the different options. You can find further information below. 
+Once the GUI shows up:   
+1) select a `.ttt` scenario from a subfolder in `patrolling3d_sim/maps`.    
+2) press the button `Launch patrolling` (this launches the script `sim_launcher_patrolling` behind the curtains).    
+3) once you are happy, you can kill all the nodes and V-REP by using the button `Kill` (this launches the script `kill_vrep_sim`).   
+
+The tooltips will give you hints on how to use the different options. Please, read below for further information. 
 
 **What is going to happen?**
 
@@ -168,8 +173,6 @@ You can save a graph by following these steps:
 * Then open a new terminal, source the tradr workspace and this workspace, and then run:   
 `$ roscd patrolling3d_sim/scripts`   
 `$ ./sim_launcher_patrolling`   
-
-N.B.: if you use the Qt GUI, the checkboxes `Enable patrolling` and `Build graph on start` allow setting the values of the variable `ENABLE_PATROLLING` and `BUILD_GRAPH_ON_START` respectively.
 
 When RVIZ is ready in front of you: 
 * add your waypoints on the RVIZ interface: for adding a new point (1) press the key 'M' and then (2) stick a new marker on the green point cloud.
