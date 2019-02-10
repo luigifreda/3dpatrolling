@@ -63,11 +63,11 @@ You can also launch the patrolling system by using our PyQt GUI (python3 require
 `$ ./main.py`  
 
 Once the GUI shows up:   
-1) select a `.ttt` scenario from a subfolder in `patrolling3d_sim/maps`.    
-2) press the button `Launch patrolling` (this launches the script `sim_launcher_patrolling` behind the curtains).    
-3) once you are happy, you can kill all the nodes and V-REP by using the button `Kill` (this launches the script `kill_vrep_sim`).   
+1) Select a `.ttt` scenario from one of the subfolders in `patrolling3d_sim/maps`.    
+2) Press the button `Launch patrolling` (this launches the script `sim_launcher_patrolling` behind the curtains).    
+3) Once you are happy, you can kill all the nodes and V-REP by using the button `Kill` (this launches the script `kill_vrep_sim`).   
 
-The tooltips will give you hints on how to use the different options. Please, read below for further information. 
+The tooltips will give you some hints on how to use the different options. Please, read below for further information.  
 
 **What is going to happen?**
 

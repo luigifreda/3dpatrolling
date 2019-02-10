@@ -55,14 +55,14 @@ or
 
 **Qt GUI**
 
-You can also launch the path planner system by using a pyQt GUI (python3 required, please read below before starting). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:  
+You can also launch the path planner system by using our PyQt GUI (python3 required). Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:  
 `$ ./main.py`  
 
 Once the GUI shows up:  
 1) press the button `Launch navigation` (this launches the script `sim_launcher_navigation` behind the curtains).    
 3) once you are happy, you can kill all the nodes and V-REP by using the button `Kill` (this launches the script `kill_vrep_sim`).   
 
-The tooltips will give you hints on how to use the different options. Please. read below for further information.
+The tooltips will give you some hints on how to use the different options. Please. read below for further information.   
 
 
 **What is going to happen?**
