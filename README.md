@@ -125,7 +125,9 @@ We would be very grateful if you would contribute to the code base by reporting 
 ----
 ## Credits 
 
-Some of the packages in the folders `patrolling_ws/src/robot` and `patrolling_ws/src/msgs`have been developed by the [TRADR team](https://www.luigifreda.com/wp-content/uploads/2018/04/IMG-20180321-WA0009-1024x768.jpg). Thanks to all the guys that shared with us cold tents, hot coffee and wonderful life moments during TRADR demos, integrations, exercises and reviews!
+* Some of the packages in the folders `patrolling_ws/src/robot` and `patrolling_ws/src/msgs`have been developed by the [TRADR team](https://www.luigifreda.com/wp-content/uploads/2018/04/IMG-20180321-WA0009-1024x768.jpg). Thanks to all the guys that shared with us cold tents, hot coffee and wonderful life moments during TRADR demos, integrations, exercises and reviews!
+
+* We implemented our patrolling agent in the ROS package `patrolling3d_sim`. We used the package [patrolling_sim](http://wiki.ros.org/patrolling_sim) as a starting point. We would like to thank the Authors for their great work. 
 
 
 
