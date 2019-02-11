@@ -51,7 +51,7 @@ or
  
  In order to kill all the launched nodes and V-REP, run:   
 `$ rosrun path_planner kill_vrep_sim`   
-or
+or   
 `$ ./kill_vrep_sim` (from `patrolling3d_sim/scripts`)    
 
 
