@@ -1,5 +1,5 @@
 /**
-* This file is part of the ROS package patrolling3d_sim wich belongs to the framework 3DPATROLLING. 
+* This file is part of the ROS package patrolling3d_sim which belongs to the framework 3DPATROLLING. 
 *
 * Copyright (C) 2016-present Luigi Freda <freda at diag dot uniroma1 dot it> (La Sapienza University)
 * For more information see <https://gitlab.com/luigifreda/3dpatrolling>
