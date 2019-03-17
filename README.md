@@ -31,7 +31,7 @@ alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/
 
 3dpatrolling requires ROS. We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on Ubuntu **16.04**. It should be easy to compile the framework in other platforms. 
 
-**NEW**[March 17 2019]: installation successfully tested on Ubuntu 18.04.
+**NEW**[March 17 2019]: installation successfully tested on Ubuntu 18.04. 
 
 ---
 ## How to install and compile 3dpatrolling
