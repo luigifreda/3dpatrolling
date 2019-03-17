@@ -50,11 +50,6 @@ using namespace std;
 
 
 
-inline long double log2(const long double x){
-    return  log(x) * M_LOG2E;
-}
-
-
 uint random (uint current_vertex, Vertex *vertex_web){
 
   //number of neighbors of current vertex (number of existing possibilites)

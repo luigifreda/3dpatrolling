@@ -108,7 +108,7 @@ public:
     
     typedef std::map<uint, VertexNavData> MapNavData;  // for each node:  { key: node_id, value: { cost-to-go, timestamp} }
     
-    static const double kExpirationTimeValidDynCost = 5; // [s]   
+    static const double kExpirationTimeValidDynCost; // [s]   
     
 public: 
     
@@ -132,6 +132,7 @@ public: // main data
                          // value: { cost-to-go, timestamp }    
 
 };
+
 
 extern uint WIDTH_PX;
 extern uint HEIGHT_PX;

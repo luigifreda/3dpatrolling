@@ -54,7 +54,7 @@
 
 #ifndef DEFINING_ANOTHER_PLUGIN
     #include <pluginlib/class_list_macros.h>
-#include <qt4/QtGui/qwidget.h>
+    #include <qt4/QtGui/qwidget.h>
     PLUGINLIB_EXPORT_CLASS(path_planner_rviz_wp_plugin::WaypointsTool, rviz::Tool)
 #endif
 

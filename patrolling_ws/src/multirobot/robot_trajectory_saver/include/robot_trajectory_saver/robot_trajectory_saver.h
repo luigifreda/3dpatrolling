@@ -353,7 +353,7 @@ private:
     static const int kSubMessageQueueSize = 10;
 
     /* Maximum distance between nodes */
-    static const double MAX_DISTANCE = 1000000;
+    static const double MAX_DISTANCE;
 
     /* Mutex to be used when save robt trajectories service is called */
     pthread_mutex_t lock_robot_trajectories;
@@ -374,6 +374,8 @@ private:
     void findClosestVertex(int n_point_of_interest, geometry_msgs::Point s, int& i, Point3D& p, double& d);
 
 };
+
+const double RobotTrajectorySaver::MAX_DISTANCE = 1000000;
 
 
 

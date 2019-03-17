@@ -90,6 +90,14 @@ using namespace std;
 //}
 
 
+
+
+const double TeamModel::kExpirationTimeTeamModel = 5; // [s]
+
+const double TeamDeployment::kExpirationTimeTeamDeployment = 1; // [s]  
+    
+// 
+
 const double PatrolAgent::kSleepTimeAfterSendingNewGoal = 0.2; // [seconds] to wait after sending a new goal
 const double PatrolAgent::kSleepTimeAfterSendingAbort   = 1; // [seconds] to wait after sending an abort
 

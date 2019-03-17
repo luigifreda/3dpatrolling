@@ -100,8 +100,8 @@ typedef std::set<NodeInfo, CompareNodeInfoById> SetNodeInfo; // set of nodes ord
 ///	\warning
 class Conscientious_Reactive_Agent : public PatrolAgent
 {
-    static const float kIldenessEqualThreshold = 5; // [s]
-    static const float kMaxElapsedTimeForDynamicGraphMessage = 5; // [s]
+    static const float kIldenessEqualThreshold; // [s]
+    static const float kMaxElapsedTimeForDynamicGraphMessage; // [s]
     
 public:    
     
@@ -129,6 +129,11 @@ protected:
     int compute_random_vertex_strategy(int prev_planned_vertex); 
     
 };
+
+
+const float Conscientious_Reactive_Agent::kIldenessEqualThreshold = 5; // [s]
+const float Conscientious_Reactive_Agent::kMaxElapsedTimeForDynamicGraphMessage = 5; // [s]
+
 
 int Conscientious_Reactive_Agent::compute_best_node_in_set(SetNodeInfo& set_nodes, std::vector<NodeInfo>& vec_ordered_nodes)
 {

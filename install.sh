@@ -68,6 +68,8 @@ sudo apt-get install -y ros-$ROS_DISTRO-navigation
 sudo apt-get install -y sox
 sudo apt-get install -y doxygen
 
+sudo apt-get install -y libqt4-dev xterm
+
 # these are necessary for the qt application with PyQt5
 sudo apt-get install -y python3-pip 
 pip3 install PyQt5 --user

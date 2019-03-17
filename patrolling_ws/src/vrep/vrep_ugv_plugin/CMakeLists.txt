@@ -11,9 +11,9 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-link_directories("/opt/ros/indigo/lib")
-link_directories("/opt/ros/hydro/lib")
-link_directories("/opt/ros/kinetic/lib")
+#link_directories("/opt/ros/indigo/lib")
+#link_directories("/opt/ros/hydro/lib")
+#link_directories("/opt/ros/kinetic/lib")
 
 add_library(v_repExtRos 
     src/vrep_plugin.cpp 
@@ -30,15 +30,15 @@ add_dependencies(v_repExtRos ${catkin_EXPORTED_TARGETS})
 target_link_libraries(v_repExtRos
     pthread
     dl
-    roslib
-    rosconsole
-    rostime
-    rospack
-    roscpp_serialization
-    roscpp
-    tf
-    tf2_ros
-    image_transport
+    #roslib
+    #rosconsole
+    #rostime
+    #rospack
+    #roscpp_serialization
+    #roscpp
+    #tf
+    #tf2_ros
+    #image_transport
     boost_system
    ${catkin_LIBRARIES}
 )

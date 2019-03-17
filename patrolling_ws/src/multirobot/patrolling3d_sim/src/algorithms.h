@@ -64,7 +64,10 @@ typedef struct {
 }reinforcement_learning;
 
 
-inline long double log2(const long double x);
+//inline long double log2(const long double x)
+//{
+//    return  log(x) * M_LOG2E;
+//}
 
 uint random (uint current_vertex, Vertex *vertex_web);
 

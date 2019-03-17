@@ -130,7 +130,7 @@ class PatrollingMarkerController;
 class TeamModel
 {
 public:
-    static const double kExpirationTimeTeamModel = 5; // [s]
+    static const double kExpirationTimeTeamModel; // [s]
     
 public:
     
@@ -183,7 +183,7 @@ class TeamDeployment
 {
 public: 
     
-    static const double kExpirationTimeTeamDeployment = 1; // [s]  
+    static const double kExpirationTimeTeamDeployment; // [s]  
     
 public:    
         

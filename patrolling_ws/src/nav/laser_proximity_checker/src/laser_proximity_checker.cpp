@@ -68,15 +68,15 @@ T getParam(ros::NodeHandle& n, const std::string& name, const T& defaultValue)
 
 class LaserProximityChecker
 {
-    static const float kRobotRadius = 0.45;  // [m] robot radius for computing the clearance  
-    static const float kProximityDistanceThreshold = 0.5; // [m] distance point-to-robot 
+    static const float kRobotRadius;  // [m] robot radius for computing the clearance  
+    static const float kProximityDistanceThreshold; // [m] distance point-to-robot 
     static const float kProximityDistanceToCheckSquared; // [m] point-to-point distance to check 
-    static const float kZMax = 0.5;
-    static const float kZMin = 0.075;
-    static const float kXMin = 0.25;     // forward direction control
-    static const float kYmin = 0.3;      // side direction control
-    static const float kRadiusFilterRadius = 0.05; // radius for the radius filter 
-    static const float kRadiusFilterMinNeighborsInRadius = 8;  // radius filter minimum number of neighbors 
+    static const float kZMax;
+    static const float kZMin;
+    static const float kXMin;     // forward direction control
+    static const float kYmin;      // side direction control
+    static const float kRadiusFilterRadius; // radius for the radius filter 
+    static const float kRadiusFilterMinNeighborsInRadius;  // radius filter minimum number of neighbors 
 
 public:
     //! Constructor. ROS::init() is assumed to have been called before.
@@ -189,8 +189,15 @@ protected:
     bool ptcld_ctrl_on;
 };
 
-
-const float LaserProximityChecker::kProximityDistanceToCheckSquared = pow(LaserProximityChecker::kProximityDistanceThreshold+LaserProximityChecker::kRobotRadius,2);
+const float LaserProximityChecker::kRobotRadius = 0.45;  // [m] robot radius for computing the clearance  
+const float LaserProximityChecker::kProximityDistanceThreshold = 0.5; // [m] distance point-to-robot 
+const float LaserProximityChecker::kProximityDistanceToCheckSquared = pow(LaserProximityChecker::kProximityDistanceThreshold+LaserProximityChecker::kRobotRadius,2); // [m] point-to-point distance to check 
+const float LaserProximityChecker::kZMax = 0.5;
+const float LaserProximityChecker::kZMin = 0.075;
+const float LaserProximityChecker::kXMin = 0.25;     // forward direction control
+const float LaserProximityChecker::kYmin = 0.3;      // side direction control
+const float LaserProximityChecker::kRadiusFilterRadius = 0.05; // radius for the radius filter 
+const float LaserProximityChecker::kRadiusFilterMinNeighborsInRadius = 8;  // radius filter minimum number of neighbors 
 
 /*
  * Constructor

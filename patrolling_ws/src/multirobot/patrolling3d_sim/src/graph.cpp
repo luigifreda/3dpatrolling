@@ -69,6 +69,8 @@ float WIDTH_M;
 float HEIGHT_M;
 
 
+const double Vertex::kExpirationTimeValidDynCost = 5; // [s]  
+
 Vertex::Vertex() 
 {
     id = 0;
