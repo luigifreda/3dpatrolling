@@ -60,8 +60,8 @@ sudo apt-get install -y doxygen
 
 Below you can find some required installation steps. Please, consider that these are wrapped for you inside the installation scripts. 
 
-1. Download version <strike>3.2.2</strike> (tested) from here 
-<strike>http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_2_2_64_Linux.tar.gz</strike>
+1. Download version <strike>3.2.2</strike> (tested) from here    
+<strike>http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_2_2_64_Linux.tar.gz</strike>    
 http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_3_2_64_Linux.tar.gz
 
 2. You don't need to compile anything. Just extract the files in your V-REP installation folder and you are ready to execute the main launcher (vrep.sh) from there.
@@ -69,7 +69,7 @@ http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_3_2_64_Linux.tar.gz
 3. Set the environment variable VREP_ROOT_DIR: add in your .bashrc the following line  
 `export VREP_ROOT_DIR=<absolute path of your V-REP installation folder (which contains the launcher vrep.sh)>`  
 for instance  
-<strike>`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_2_2_64_Linux`</strike>
+<strike>`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_2_2_64_Linux`</strike>   
 `export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_3_2_64_Linux`
 
 4. Once you have updated and compiled the tradr-simulation stack, you have to copy the lib `patrolling_ws/devel/lib/libv_repExtRos.so` in the
