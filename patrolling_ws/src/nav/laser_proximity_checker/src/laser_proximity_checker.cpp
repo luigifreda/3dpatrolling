@@ -41,7 +41,7 @@
 #include <pcl/kdtree/kdtree_flann.h>
 
 #include <limits>
-#include <pcl-1.7/pcl/impl/point_types.hpp>
+#include <pcl/point_types.h>
 
 template<typename T>
 T getParam(ros::NodeHandle& n, const std::string& name, const T& defaultValue)
