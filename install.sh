@@ -34,6 +34,19 @@ sudo apt-get install python-catkin-tools
 
 
 # --------------------------
+# solve problems with ROS melodic  
+# --------------------------
+
+version=$(lsb_release -a 2>&1)
+if [[ $version == *"18.04"* ]] ; then
+	cd patrolling_ws/src/msgs 
+	if [ ! -d  brics_actutor ]; then
+		git clone https://github.com/wnowak/brics_actuator
+	fi 
+	cd - 
+fi 
+
+# --------------------------
 # install necessary workspace dependencies 
 # --------------------------
 

@@ -17,7 +17,8 @@ print_blue '================================================'
 set -e
 
 
-FILE=V-REP_PRO_EDU_V3_2_2_64_Linux
+#FILE=V-REP_PRO_EDU_V3_2_2_64_Linux  # not available any more on coppelia website 
+FILE=V-REP_PRO_EDU_V3_3_2_64_Linux
 
 DEST_DIR=/usr/local
 
