@@ -23,6 +23,10 @@
 
 #include <ros/ros.h>
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <DynamicJoinPclConfig.h>
 
 #include <pcl/point_types.h>

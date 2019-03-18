@@ -21,6 +21,10 @@
 #ifndef TRAV_ANALIZER_H_
 #define TRAV_ANALIZER_H_
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <cmath>
 #include <vector>
 #include <set>

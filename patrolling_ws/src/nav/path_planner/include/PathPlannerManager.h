@@ -21,6 +21,10 @@
 #ifndef PATH_PLANNING_MANAGER_H_
 #define PATH_PLANNING_MANAGER_H_
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include "PathPlanner.h"  // stay before any pcl include, it contains PCL_NO_PRECOMPILE directive 
 
 #include <pcl/filters/crop_box.h>

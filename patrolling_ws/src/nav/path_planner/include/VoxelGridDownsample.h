@@ -3,6 +3,10 @@
 
 #include <ros/ros.h>
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/conversions.h>

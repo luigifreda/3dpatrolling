@@ -32,6 +32,10 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseArray.h>
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 

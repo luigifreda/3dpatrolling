@@ -21,7 +21,9 @@
 #ifndef KDTREE_FLANN_PP_H
 #define KDTREE_FLANN_PP_H
 
+#ifndef PCL_NO_PRECOMPILE
 #define PCL_NO_PRECOMPILE
+#endif 
 
 #include <pcl/search/kdtree.h>
 //#include <pcl/kdtree/kdtree_flann.h>

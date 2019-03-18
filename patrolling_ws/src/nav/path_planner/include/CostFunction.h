@@ -22,6 +22,11 @@
 #define COST_FUNCTION_H
 
 #include <ros/ros.h>
+
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <pcl/point_types.h>
 #include <cstring>
 #include <limits>

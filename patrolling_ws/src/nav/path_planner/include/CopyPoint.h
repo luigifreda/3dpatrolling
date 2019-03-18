@@ -21,6 +21,10 @@
 #ifndef COPY_POINT_H
 #define COPY_POINT_H
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <pcl/point_types.h>
 
 #define COPY_XY(p,q)    {q.x = p.x; q.y = p.y;}

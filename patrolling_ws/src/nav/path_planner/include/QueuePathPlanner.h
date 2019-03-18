@@ -21,6 +21,10 @@
 #ifndef QUEUE_PLANNER_H
 #define QUEUE_PLANNER_H
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <boost/thread.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 

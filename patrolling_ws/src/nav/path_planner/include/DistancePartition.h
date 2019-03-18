@@ -21,6 +21,10 @@
 #ifndef PCL_FILTERS_DISTANCEPARTITION_H_
 #define PCL_FILTERS_DISTANCEPARTITION_H_
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 

@@ -23,6 +23,10 @@
 
 #include <vector>
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <ClusterPclConfig.h>
 
 using namespace path_planner;

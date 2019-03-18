@@ -22,7 +22,9 @@
 #ifndef PATH_PLANNING_H_
 #define PATH_PLANNING_H_
 
+#ifndef PCL_NO_PRECOMPILE
 #define PCL_NO_PRECOMPILE
+#endif 
 
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/shared_ptr.hpp>

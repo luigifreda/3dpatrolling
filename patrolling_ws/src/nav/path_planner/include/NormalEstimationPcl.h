@@ -24,6 +24,10 @@
 #include <ros/ros.h>
 #include <ros/console.h>
 
+#ifndef PCL_NO_PRECOMPILE
+#define PCL_NO_PRECOMPILE
+#endif 
+
 #include <NormalEstimationPclConfig.h>
 
 #include <pcl/point_types.h>

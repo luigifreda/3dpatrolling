@@ -142,6 +142,11 @@ fi
 
 LOGS_FOLDER=$PATROLLING3D_FOLDER/logs
 
+if [ ! -d $LOGS_FOLDER ] 
+then
+	mkdir -p $LOGS_FOLDER 
+fi
+
 export TIME_NOW=$(date +"%Y-%m-%d-%H-%M-%S")
 export FILE_LOG_PATROL_MONITOR=$LOGS_FOLDER"/log_patrolling_monitor_$TIME_NOW.log"
 
