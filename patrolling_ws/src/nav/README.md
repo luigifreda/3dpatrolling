@@ -11,7 +11,7 @@ alt="RVIZ and V-REP" width="800" border="1" />
 ----
 ## Requirements
 
-* We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on Ubuntu **16.04** (with limited testing). It should be easy to compile the framework in other platforms. 
+* We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on **Ubuntu 16.04** and **18.04** (with limited testing). It should be easy to compile the framework in other platforms. 
 
 
 --- 

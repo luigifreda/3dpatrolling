@@ -10,7 +10,7 @@ alt="V-REP simulation 3dpatrolling" height="200" border="1" />
 ----
 ## Requirements
 
-* We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on Ubuntu **16.04** (with limited testing). It should be easy to compile the framework in other platforms. 
+* We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on **Ubuntu 16.04** and **18.04** (with limited testing). It should be easy to compile the framework in other platforms. 
 
 * If you want to deploy the `patrolling3d_sim` nodes on real **robots** (or on **different computers**), it is **REQUIRED to synch the system clocks of the different computer boards**. To this aim, you can use [chrony](https://chrony.tuxfamily.org/manual.html), for instance. If you do not want to synch the clocks then you have to disable stamped messages in the header `message_types.h` (contained in the package `patrolling3d_sim`)
 
