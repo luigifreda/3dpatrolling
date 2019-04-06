@@ -31,11 +31,11 @@ for saving the map (see the input variables in the script).
 - `load_map`
 for loading a map (see the input variables in the script).
 
-<center>
+<p align="center">
 <img src="../../../images/animated.gif"
 alt="V-REP simulation 3dpatrolling" width="300" border="1" /> <img src="../../../images/crossroad.gif"
 alt="V-REP simulation 3dpatrolling" width="300" border="1" />
-</center>
+</p>
 
 ----
 ## How to run the patrolling strategy
@@ -114,21 +114,25 @@ The patrolling scenes are collected in the folder `patrolling3d_sim/maps`. In th
 
 In the script `patrolling3d_sim/scripts/sim_launcher_patrolling` you can select which scenario to use by setting the var `WORLD_NAME`. In the available 3D environments, the saved trajectory is used by the traversability analysis node (of the path planner) in order to quickly estimate the "correct" up-orientation of the normals.
 
-<center>
+<p align="center">
 <img src="../../../images/envs/3D_ramp.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" />
 <img src="../../../images/envs/3D_ring.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" />  
+</p>
 
+<p align="center">
 <img src="../../../images/envs/crossroad3.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="../../../images/envs/three-ways.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" />
+</p>
 
+<p align="center">
 <img src="../../../images/envs/crossroad4.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="../../../images/envs/fork4.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="../../../images/envs/ring_tails.png"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" />
-</center>
+</p>
 
 ----
 ## How to build, save and load a volumetric map 
