@@ -21,10 +21,10 @@ Autonomous Robots, Springer, 2018.
 Videos and further information can be found on the [project webpage](https://sites.google.com/a/dis.uniroma1.it/3d-cc-patrolling/).  
 
 
-<center>
+<p align="center">
 <img src="images/two-floor-ring.gif"
 alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/3d_patrolling_corridor.png" alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/3d_patrolling.png" alt="V-REP simulation 3dpatrolling" height="150" border="1" />
-</center>
+</p>
 
 ----
 ## Prerequisites
@@ -83,11 +83,11 @@ Once you have sourced the workspaces, you're ready to test the *patrolling syste
 
 See this [README.md](patrolling_ws/src/multirobot/README.md) file.
 
-<center>
+<p align="center">
 <img src="images/animated.gif"
 alt="V-REP simulation 3dpatrolling" width="300" border="1" /> <img src="images/crossroad.gif"
 alt="V-REP simulation 3dpatrolling" width="300" border="1" />
-</center>
+</p>
 
 ----
 ## Test the path planner
