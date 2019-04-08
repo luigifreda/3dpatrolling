@@ -1,4 +1,3 @@
-
 # 3dpatrolling
 
 **Authors**: Luigi Freda, Mario Gianni, Fiora Pirri, Abel Gawel, Renaud Dubé, Roland Siegwart and Cesar Cadena
@@ -36,7 +35,7 @@ alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/
 ---
 ## How to install and compile 3dpatrolling
 
-Here you can find a quick install procedure (tested under *Ubuntu 16.04*). Open a new terminal and get into the root folder of this repo. Run the following commands: 
+Here you can find a quick install procedure (tested under *Ubuntu 16.04* and *18.04*). Open a new terminal and get into the root folder of this repo. Run the following commands: 
 * install V-REP, ROS dependencies and everything is required   
 `$ ./install.sh`
 * compile the two workspaces `mapping_ws` and `patrolling_ws`   
