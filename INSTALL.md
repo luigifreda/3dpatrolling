@@ -93,5 +93,17 @@ You can then shut down all the nodes by running
 `$ rosrun path_planner kill_vrep_sim`
 
 
+## Robots do not show up in RVIZ 
+
+If robots do not appear in RVIZ, you can easily solve this issue by running in your shell:     
+`$ export LC_NUMERIC="en_US.UTF-8"`    
+
+Now, this command has been hadded in the `source-all` scripts. 
+For further details, see [this page](https://answers.ros.org/question/266313/robot-model-not-showing-in-rviz/
+).
+
+
+
+
 
 

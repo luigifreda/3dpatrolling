@@ -17,3 +17,7 @@ echo PATROLLING3D_HOME: $PATROLLING3D_HOME
 . $PATROLLING3D_HOME/patrolling_ws/devel/setup.bash --extend
 
 
+
+# https://answers.ros.org/question/266313/robot-model-not-showing-in-rviz/
+# added for making the robots appear in RVIZ 
+export LC_NUMERIC="en_US.UTF-8"

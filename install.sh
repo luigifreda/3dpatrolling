@@ -74,6 +74,11 @@ sudo apt-get install -y libqt4-dev xterm
 sudo apt-get install -y python3-pip 
 pip3 install PyQt5 --user
 
+if [[ $version == *"18.04"* ]] ; then
+	sudo apt-get install -y libcanberra-gtk-module libcanberra-gtk3-module
+	sudo apt-get install -y libqt4-dev python-qt4
+fi 
+
 
 # --------------------------
 # install V-REP
