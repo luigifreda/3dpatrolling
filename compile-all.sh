@@ -3,7 +3,7 @@
 STARTING_DIR=`pwd`
 echo STARTING_DIR: $STARTING_DIR
 
-set -i
+set -e
 source ~/.bashrc 
 echo "VREP_ROOT_DIR: $VREP_ROOT_DIR"
 
