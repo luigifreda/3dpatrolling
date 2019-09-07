@@ -35,9 +35,9 @@
 	      
         <param name = "gain_k1_IOL" value = "1"/>
         <param name = "gain_k2_IOL" value = "1"/>
-        <param name = "gain_k1_NL" value = "1.5"/>
-        <param name = "gain_k2_NL" value = "1.5"/>
-        <param name = "gain_kw" value = "1"/>
+        <param name = "gain_k1_NL" value = "2.0"/> <!-- was 1.5 -->
+        <param name = "gain_k2_NL" value = "2.0"/> <!-- was 1.5 -->
+        <param name = "gain_kw" value = "1.5"/> <!-- was 1 -->
 
         <param name = "fl_frame_id" value = "/$(arg robot_name)/front_left_flipper"/>
         <param name = "fr_frame_id" value = "/$(arg robot_name)/front_right_flipper"/>

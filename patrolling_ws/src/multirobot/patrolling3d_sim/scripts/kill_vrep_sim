@@ -3,6 +3,8 @@
 rosnode kill -a
 sleep 1
 
+killall -9 screen; screen -wipe 
+
 killall -9 xterm
 killall -9 vrep
 killall -9 python

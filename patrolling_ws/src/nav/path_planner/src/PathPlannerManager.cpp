@@ -110,7 +110,7 @@ void PathPlannerManager::wallCloudCallback(const sensor_msgs::PointCloud2& wall_
 
     pcl::fromROSMsg(wall_msg, wall_pcl_);
      
-    // this cloud can be empty 
+    // this cloud be empty 
     if(wall_pcl_.size() == 0)
     {
         /// < HACK: add a single far point 

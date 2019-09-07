@@ -14,9 +14,17 @@ source ~/.bashrc
 # load the config environment variables
 source $PATROLLING3D_HOME/config.sh --extend
 
-source $PATROLLING3D_HOME/mapping_ws/devel/setup.bash --extend
+setup_files=( \
+"$PATROLLING3D_HOME/mapping_ws/devel/setup.bash" \
+"$PATROLLING3D_HOME/patrolling_ws/devel/setup.bash" \
+)
 
-source $PATROLLING3D_HOME/patrolling_ws/devel/setup.bash --extend
+for setup_file in "${setup_files[@]}"
+do
+    if [ -f $setup_file ]; then
+        source $setup_file --extend
+    fi
+done
 
 
 # https://answers.ros.org/question/266313/robot-model-not-showing-in-rviz/

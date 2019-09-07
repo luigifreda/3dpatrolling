@@ -21,7 +21,9 @@
 #ifndef CLUSTERPCL_H
 #define CLUSTERPCL_H
 
-#include <vector>
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
+
 
 #ifndef PCL_NO_PRECOMPILE
 #define PCL_NO_PRECOMPILE

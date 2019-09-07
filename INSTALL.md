@@ -62,7 +62,8 @@ Below you can find some required installation steps. Please, consider that these
 
 1. Download version <strike>3.2.2</strike> (tested) from here    
 <strike>http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_2_2_64_Linux.tar.gz</strike>    
-http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_3_2_64_Linux.tar.gz
+<strike>http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_3_2_64_Linux.tar.gz</strike>    
+http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_5_0_Linux.tar.gz
 
 2. You don't need to compile anything. Just extract the files in your V-REP installation folder and you are ready to execute the main launcher (vrep.sh) from there.
 
@@ -70,12 +71,13 @@ http://coppeliarobotics.com/files/V-REP_PRO_EDU_V3_3_2_64_Linux.tar.gz
 `export VREP_ROOT_DIR=<absolute path of your V-REP installation folder (which contains the launcher vrep.sh)>`  
 for instance  
 <strike>`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_2_2_64_Linux`</strike>   
-`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_3_2_64_Linux`
+<strike>`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_3_2_64_Linux`</strike>     
+`export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_5_0_Linux`
 
 4. Once you have updated and compiled the tradr-simulation stack, you have to copy the lib `patrolling_ws/devel/lib/libv_repExtRos.so` in the
 installation folder VREP_ROOT_DIR (NOTE: this lib enables V-REP to get and parse track-velocity command messages)
 
-**Note**: <strike>at present time, V-REP 3.3 does not work with our framework. Please, use V-REP 3.2.2. We will fix the current issues (UGV model scripts and V-REP 3.3) ASAP.</strike> at present time V-REP 3.3 seems to correctly work. In the different scenes, UGV script has been fixed in order to properly work. If you find a scene that does not correctly work, please, check that the contained UGV scripts have the `jaco` arm lines commented (compare with this [script](./patrolling_ws/src/vrep/vrep_ugv_simulation/data/UGV-Script.txt)). 
+**Note**: <strike>at present time, V-REP 3.3 does not work with our framework. Please, use V-REP 3.2.2. We will fix the current issues (UGV model scripts and V-REP 3.3) ASAP.</strike> At present time V-REP 3.5 seems to correctly work. In the different scenes, UGV script has been fixed in order to properly work. If you find a scene that does not correctly work, please, check that the contained UGV scripts have the `jaco` arm lines commented (compare with this [script](./patrolling_ws/src/vrep/vrep_ugv_simulation/data/UGV-Script.txt)). 
 
 ## Test V-REP installation 
 

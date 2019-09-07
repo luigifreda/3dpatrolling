@@ -36,11 +36,26 @@ const float NormalEstimationPcl<PointT>::kLaserZWrtBody = 0.2; // [m] actual del
 template<typename PointT>
 const int NormalEstimationPcl<PointT>::kMinNumNeighboursForComputingNormal = 5; // minimum number of neighbours for computing the normal 
 
+template<typename PointT>
+const float NormalEstimationPcl<PointT>::kTrajDownsampleDistance = 0.4; // [m]
+template<typename PointT>
+const float NormalEstimationPcl<PointT>::kTrajDownsampleDistance2 = NormalEstimationPcl<PointT>::kTrajDownsampleDistance * NormalEstimationPcl<PointT>::kTrajDownsampleDistance;
 
 template<typename PointT>
-NormalEstimationPcl<PointT>::NormalEstimationPcl() :
+NormalEstimationPcl<PointT>::NormalEstimationPcl():
 threshold_(0.5)
 {
+    robot_id_         = 0;
+    number_of_robots_ = 0;    
+    
+    map_frame_ = "/map";     
+    
+    for(size_t ii=0; ii<kMaxNumberOfRobots; ii++)
+    {
+        last_laser_center_[ii].x = std::numeric_limits<float>::max();
+        last_laser_center_[ii].y = std::numeric_limits<float>::max();
+        last_laser_center_[ii].z = std::numeric_limits<float>::max();               
+    }
 }
 
 template<typename PointT>
@@ -338,7 +353,8 @@ void NormalEstimationPcl<PointT>::computeNormalsInRange(const size_t num_thread,
 template<typename PointT>
 void NormalEstimationPcl<PointT>::computeNormals(PointCloudT& pcl, KdTreeT& kdtree, const pcl::PointXYZ& center)
 {
-    addPointToLaserTraj(center);
+    addPointToLaserTraj(center, robot_id_);
+    checkTeammatePositionsFromTransform();
     
     kdtree_laser_centers_.setInputCloud(pcl_laser_trajectory_.makeShared());
         
@@ -431,15 +447,22 @@ void NormalEstimationPcl<PointT>::computeNormals(PointCloudT& pcl, KdTreeT& kdtr
 }
 
 template<typename PointT>
-void NormalEstimationPcl<PointT>::addPointToLaserTraj(const pcl::PointXYZ& center)
+void NormalEstimationPcl<PointT>::addPointToLaserTraj(const pcl::PointXYZ& center, const int robot_id)
 {
     boost::recursive_mutex::scoped_lock locker(pcl_laser_traj_mutex_);
-    
+        
     PointT center_point; 
     center_point.x = center.x; 
     center_point.y = center.y;
     center_point.z = center.z + kLaserZOffset;
-    pcl_laser_trajectory_.push_back(center_point);
+        
+    // spatially downsample the laser centers as they arrive 
+    double dist2 = distSquared(center_point,last_laser_center_[robot_id] );
+    if(dist2 > kTrajDownsampleDistance2)
+    {
+        last_laser_center_[robot_id]  = center_point;
+        pcl_laser_trajectory_.push_back(center_point);
+    }
 }
 
 
@@ -525,6 +548,38 @@ void NormalEstimationPcl<PointT>::setLaserTraj(const nav_msgs::Path& base_link_t
     pcl_laser_trajectory_ += pcl_prev_map_trajectory_; 
 }
     
+
+template<typename PointT>
+void NormalEstimationPcl<PointT>::checkTeammatePositionsFromTransform()
+{    
+    std::cout << "NormalEstimationPcl::updateRobotToAvoidPositionFromTransform()" << std::endl;
+
+    tf::StampedTransform robot_pose;
+            
+    for(size_t id=0; id < number_of_robots_; id++)
+    {
+        if(id == robot_id_) continue; /// < CONTINUE 
+        
+        pcl::PointXYZ center_point;        
+        try
+        {
+            robot_pose = p_transform_teammate_->get(map_frame_,teammate_base_link_frame_[id]);
+                                                
+            center_point.x = robot_pose.getOrigin().x();
+            center_point.y = robot_pose.getOrigin().y();
+            center_point.z = robot_pose.getOrigin().z();            
+        }
+        catch (TransformException e)
+        {
+            ROS_WARN("NormalEstimationPcl::updateTeammatePositionsFromTransform() - %s", e.what());
+        }
+        
+        if(p_transform_teammate_->isOk())
+        {
+            addPointToLaserTraj(center_point, id); 
+        }
+    }
+}
     
 template class NormalEstimationPcl<pcl::PointNormal>;
 template class NormalEstimationPcl<pcl::PointXYZINormal>;

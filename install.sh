@@ -67,8 +67,15 @@ sudo apt-get install -y ros-$ROS_DISTRO-joy
 sudo apt-get install -y ros-$ROS_DISTRO-navigation
 sudo apt-get install -y sox
 sudo apt-get install -y doxygen
+sudo apt-get install -y screen 
 
 sudo apt-get install -y libqt4-dev xterm
+
+sudo apt-get install -y libnss3-dev
+
+sudo apt-get install -y liboctomap-dev
+sudo apt-get install -y protobuf-compiler
+
 
 # these are necessary for the qt application with PyQt5
 sudo apt-get install -y python3-pip 

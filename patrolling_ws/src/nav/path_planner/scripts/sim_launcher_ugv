@@ -39,6 +39,16 @@ USE_TELEOP_MUX="false" # true or false, use telop mux
 
 ########################################################################################################
 
+if [[ -z "${PATROLLING3D_HOME}" ]]; then
+    echo "ERROR: missing env var PATROLLING3D_HOME"
+    echo "please, source source-all.bash in the main patrolling3d folder"
+    exit 
+else
+    source $PATROLLING3D_HOME/source-all.bash
+fi
+
+########################################################################################################
+
 # check if we want to enable/disable multi-robot from input 
 export ENABLE_MULTI_ROBOT_COORDINATION_INPUT=$2
 if [[ -n "$ENABLE_MULTI_ROBOT_COORDINATION_INPUT" ]] 
@@ -60,18 +70,18 @@ fi
 # Here we use an independent volumetric MAPPING node for each ugv
 
 #- Laser assembler 
-xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME laser assembler; roslaunch path_planner sim_nifti_laser_assembler_ugv2.launch robot_name:=$ROBOT_NAME world_frame:=/odom; bash" &
+open_term "$ROBOT_NAME"laser_assembler "echo $ROBOT_NAME laser assembler; roslaunch path_planner sim_nifti_laser_assembler_ugv2.launch robot_name:=$ROBOT_NAME world_frame:=/odom; bash" &
 
 #- Mapping (Octomap) + Normal Estimation
 #xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME mapping; roslaunch path_planner sim_mapping_ugv2.launch robot_name:=$ROBOT_NAME use_laser_assembler:=true; bash" &
-xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME mapping; roslaunch path_planner sim_volumetric_mapping_ugv2.launch robot_name:=$ROBOT_NAME use_laser_assembler:=true; bash" &
+open_term "$ROBOT_NAME"mapping  "echo $ROBOT_NAME mapping; roslaunch path_planner sim_volumetric_mapping_ugv2.launch robot_name:=$ROBOT_NAME use_laser_assembler:=true; bash" &
 sleep 1
 
 ########################################################################################################
 
 #- Traversability  
 
-xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME traversability; roslaunch path_planner sim_traversability_ugv2.launch robot_name:=$ROBOT_NAME enable_multi_robot_avoidance:=$ENABLE_MULTI_ROBOT_COORDINATION; bash" &
+open_term "$ROBOT_NAME"traversability  "echo $ROBOT_NAME traversability; roslaunch path_planner sim_traversability_ugv2.launch robot_name:=$ROBOT_NAME enable_multi_robot_avoidance:=$ENABLE_MULTI_ROBOT_COORDINATION; bash" &
 sleep 1
 
 ########################################################################################################
@@ -81,12 +91,12 @@ sleep 1
 if [ $QUEUE_PATH_PLANNER -eq 1 ] 
 then
 	# global path planner (queue path planner) + local path planner (path planner manager)
-	xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME queue path planner; roslaunch path_planner sim_queue_path_planner_ugv2.launch robot_name:=$ROBOT_NAME; bash" &
+        open_term "$ROBOT_NAME"queue_path_planner  "echo $ROBOT_NAME queue path planner; roslaunch path_planner sim_queue_path_planner_ugv2.launch robot_name:=$ROBOT_NAME; bash" &
 	#sleep 2 
-	xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME path planner manager; roslaunch path_planner sim_path_planner_manager_ugv2.launch robot_name:=$ROBOT_NAME use_marker_controller:=false; bash" &
+	open_term "$ROBOT_NAME"path_planner_manager  "echo $ROBOT_NAME path planner manager; roslaunch path_planner sim_path_planner_manager_ugv2.launch robot_name:=$ROBOT_NAME use_marker_controller:=false; bash" &
 else
 	#xterm $XTERM_OPTIONS -e "echo ugv1 path planner; roslaunch path_planner sim_path_planner_ugv1.launch; bash" &
-	xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME path planner manager; roslaunch path_planner sim_path_planner_manager_ugv2.launch robot_name:=$ROBOT_NAME; bash" &
+	open_term "$ROBOT_NAME"path_planner_manager  "echo $ROBOT_NAME path planner manager; roslaunch path_planner sim_path_planner_manager_ugv2.launch robot_name:=$ROBOT_NAME; bash" &
 fi 
 
 sleep 1
@@ -94,7 +104,7 @@ sleep 1
 ########################################################################################################
 
 #- Trajectory Control 
-xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME trajectory control; roslaunch trajectory_control sim_trajectory_control_ugv2.launch robot_name:=$ROBOT_NAME use_teleop_mux:=$USE_TELEOP_MUX; bash" &
+open_term "$ROBOT_NAME"trajectory_control  "echo $ROBOT_NAME trajectory control; roslaunch trajectory_control sim_trajectory_control_ugv2.launch robot_name:=$ROBOT_NAME use_teleop_mux:=$USE_TELEOP_MUX; bash" &
 
 
 ########################################################################################################
@@ -105,7 +115,7 @@ if [ $USE_LASER_PROXIMITY_CHECKER -eq 1 ]
 then
 
 
-    xterm $XTERM_OPTIONS -e "echo $ROBOT_NAME laser proximity checker; roslaunch laser_proximity_checker sim_laser_proximity_checker_ugv2.launch robot_name:=$ROBOT_NAME world_frame:=/odom; bash" &
+    open_term "$ROBOT_NAME"laser_proximity_checker  "echo $ROBOT_NAME laser proximity checker; roslaunch laser_proximity_checker sim_laser_proximity_checker_ugv2.launch robot_name:=$ROBOT_NAME world_frame:=/odom; bash" &
 
 fi 
 

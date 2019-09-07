@@ -19,7 +19,7 @@
 */
 
 #include <ros/ros.h>
-#include <DynamicJoinPcl.h>
+//#include <DynamicJoinPcl.h>
 #include <NormalEstimationPcl.h>
 #include <ColorNormalsPcl.h>
 #include <ConversionPcl.h>
@@ -30,7 +30,10 @@
 #include <robot_trajectory_saver_msgs/GetRobotTrajectories.h>
 
 #include "KdTreeFLANN.h"
+#include "MultiConfig.h"
 
+int number_of_robots = 2; 
+int robot_id         = 0;
 
 NormalEstimationPcl<pcl::PointXYZRGBNormal> normal_estimator;
 ConversionPcl<pcl::PointXYZRGBNormal> conv_pcl;
@@ -161,6 +164,22 @@ int main(int argc, char **argv)
     ros::NodeHandle n("~");
 
     /// < get parameters
+    std::string str_robot_name   = getParam<std::string>(n, "robot_name", "ugv1");   /// < multi-robot
+    std::string str_robot_prefix = "ugv"; 
+    robot_id = atoi(str_robot_name.substr(3,str_robot_name.size()).c_str()) - 1;
+    normal_estimator.setRobotId(robot_id);
+    
+    normal_estimator.setNumberOfRobots(number_of_robots);
+    normal_estimator.initTransformListener();
+
+    for(size_t id=0; id<kMaxNumberOfRobots; id++)
+    {
+        std::stringstream name;
+        name << "/" << str_robot_prefix << id+1 << "/laser"; 
+        normal_estimator.setTeammateBaseFrame(name.str(),id);
+    }    
+    
+    
     robot_frame_name = getParam<std::string>(n, "robot_frame_name", "/base_link");
     laser_frame_name = getParam<std::string>(n, "laser_frame_name", std::string());
     if (!laser_frame_name.empty())

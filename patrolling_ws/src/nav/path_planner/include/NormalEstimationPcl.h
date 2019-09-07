@@ -51,6 +51,8 @@
 #include <cmath>
 
 #include "KdTreeFLANN.h"
+#include "Transform.h"
+#include "MultiConfig.h"
 
 
 using namespace path_planner;
@@ -62,6 +64,9 @@ class NormalEstimationPcl
     static const float kLaserZOffset; // [m] how much each laser view point is pushed higher
     static const float kLaserZWrtBody; // [m] actual delta_z between laser view point and base_link
     static const int kMinNumNeighboursForComputingNormal; // minimum number of neighbours for computing the normal 
+    
+    static const float kTrajDownsampleDistance;
+    static const float kTrajDownsampleDistance2;
     
 public:     
     
@@ -89,6 +94,16 @@ public: ///  < setters
     // Set laser trajectory 
     void setLaserTraj(const nav_msgs::Path& base_link_traj);
     
+    void setRobotId(const int id) {robot_id_ = id; }
+    void setNumberOfRobots(const int num) { number_of_robots_ = std::min(num,kMaxNumberOfRobots); }     
+        
+    void setTeammateBaseFrame(const std::string& frame, int id) { teammate_base_link_frame_[id] = frame; } 
+    
+    void initTransformListener()
+    {
+        p_transform_teammate_.reset(new Transform());
+    }
+    
 public:  /// < getters 
     
     inline NormalEstimationPclConfig& getConfig()
@@ -105,7 +120,6 @@ protected:
     inline float cosineKernel(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2);
 
 
-
     // Compute the covariance matrix between the point center and his neighbors. The covariance matrix is weighted with kernel function
     void computeCovarianceMatrix(const PointCloudT& neighbors, const pcl::PointXYZ& center, Eigen::Matrix3f& covariance_matrix);
 
@@ -116,11 +130,13 @@ protected:
     void computeNormalsInRange(const size_t num_thread, const size_t start, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, std::vector<bool>& done, const pcl::PointXYZ& center);
 
     // Add a new laser center to the laser trajectory 
-    void addPointToLaserTraj(const pcl::PointXYZ& center); 
+    void addPointToLaserTraj(const pcl::PointXYZ& center, const int robot_id = 0); 
     
     // Compute closest laser point to each point of the cloud 
     void computeClosestLaserPoints(PointCloudT& pcl); 
         
+    void checkTeammatePositionsFromTransform();
+
 protected:
     
     NormalEstimationPclConfig config_;
@@ -133,7 +149,26 @@ protected:
     PointCloudT pcl_prev_map_trajectory_;  // previously built map trajectory
     KdTreeT kdtree_laser_centers_;
     
+    PointT last_laser_center_[kMaxNumberOfRobots];
+    
     std::vector<size_t> closest_laser_point_idx_; 
+    
+    int robot_id_;
+    int number_of_robots_;     
+        
+    std::string map_frame_; 
+    std::string teammate_base_link_frame_[kMaxNumberOfRobots]; 
+    
+    boost::shared_ptr<Transform> p_transform_teammate_;    
+    
+protected:
+    
+    template<class Point1, class Point2>
+    double distSquared(const Point1& p1, const Point2& p2)
+    {
+        return pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2) + pow(p1.z - p2.z, 2);
+    }
+
 };
 
 #endif //NORMALESTIMATIONPCL_H

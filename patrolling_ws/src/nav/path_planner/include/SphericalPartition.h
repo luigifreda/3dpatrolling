@@ -25,7 +25,8 @@
 #define PCL_NO_PRECOMPILE
 #endif 
 
-#include <vector>
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>

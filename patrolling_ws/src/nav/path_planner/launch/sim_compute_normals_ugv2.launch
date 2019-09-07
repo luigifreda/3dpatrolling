@@ -2,7 +2,7 @@
 
 <launch>
 
-	  <arg name="robot_name" default="ugv1" />
+	  <arg name="robot_name" default="ugv2" />
 	  <arg name="simulator" value="vrep" />
 	  
 	  <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->

@@ -26,8 +26,10 @@
 #endif 
 
 #include <cmath>
-#include <vector>
 #include <set>
+
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/recursive_mutex.hpp>
@@ -53,9 +55,7 @@
 #include "ClusterPcl.h"
 #include "Transform.h"
 #include "KdTreeFLANN.h"
-
-
-static const int kMaxNumberOfRobots = 16; 
+#include "MultiConfig.h"
 
 
 ///	\class TravAnalyzer
@@ -68,6 +68,8 @@ static const int kMaxNumberOfRobots = 16;
 class TravAnalyzer
 {
 public:
+   
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW    
     
     static const float kRobotRadius;  // [m] robot radius for computing the clearance   
     static const float kRobotRadiusSquared;  // [m^2] robot radius squared for computing the clearance   
@@ -246,14 +248,14 @@ inline double TravAnalyzer::distSquared(const Point1& p1, const Point2& p2)
     return pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2) + pow(p1.z - p2.z, 2);
 }
 
-inline double point_plane_distance(pcl::PointXYZRGBNormal& p, pcl::ModelCoefficients& coefficients)
+inline double point_plane_distance(const pcl::PointXYZRGBNormal& p, const pcl::ModelCoefficients& coefficients)
 {
     double num = abs(p.x * coefficients.values[0] + p.y * coefficients.values[1] + p.z * coefficients.values[2] + coefficients.values[3]);
     double den = sqrt(pow(coefficients.values[0], 2) + pow(coefficients.values[1], 2) + pow(coefficients.values[2], 2));
     return num / den;
 }
 
-inline double point_point_distance(pcl::PointXYZRGBNormal p1, pcl::PointXYZRGBNormal p2)
+inline double point_point_distance(const pcl::PointXYZRGBNormal& p1, const pcl::PointXYZRGBNormal& p2)
 {
     return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2) + pow(p1.z - p2.z, 2));
 }

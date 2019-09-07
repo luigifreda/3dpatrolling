@@ -25,16 +25,17 @@
 #include <geometry_msgs/PoseArray.h>
 #include <dynamic_reconfigure/server.h>
 
-#include <DynamicJoinPcl.h>
+//#include <DynamicJoinPcl.h>
 #include <ClusterPcl.h>
 #include <ConversionPcl.h>
 #include <ColorNormalsPcl.h>
 #include <MakeNormalsMarkers.h>
 #include <TravAnalyzer.h>
-#include <vector>
 
 #include "KdTreeFLANN.h"
 #include "Transform.h"
+#include "MultiConfig.h"
+
 
 ConversionPcl<pcl::PointXYZRGBNormal> conv_pcl;
 ClusterPcl<pcl::PointXYZRGBNormal> clustering_pcl;
@@ -229,7 +230,7 @@ void multiRobotPoseCallback(const trajectory_control_msgs::MultiRobotPose& msg)
 
 void multiRobotPathsCallback(const trajectory_control_msgs::MultiRobotPath& msg)
 {
-    boost::recursive_mutex::scoped_lock locker(trav_analyzer_mutex);
+    boost::recursive_mutex::scoped_lock locker(trav_analyzer_mutex); 
     trav_analyzer.setMultiRobotPath(msg);
 }
 
@@ -329,7 +330,7 @@ int main(int argc, char **argv)
         if(id != robot_id)
         {
             std::stringstream topic_name;
-            topic_name << "/" << str_robot_prefix << id+1 << "/multi_robot_paths";  /// < /ugv"i+1"/path_to_avoid
+            topic_name << "/" << str_robot_prefix << id+1 << "/multi_robot_paths";  /// < /ugv"i+1"/multi_robot_paths
             std::cout << "topic name in: " << topic_name.str() << std::endl;
             other_multi_robot_paths_sub[id] = n.subscribe(topic_name.str(), 1, multiRobotPathsCallback); /// < multi-robot
         }

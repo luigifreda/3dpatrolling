@@ -6,7 +6,7 @@
     
     <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
         
-	<arg name="robot_name" default="ugv2" />  <!-- this also defines the robot id, the last digit after "ugv" -->        
+    <arg name="robot_name" default="ugv2" />  <!-- this also defines the robot id, the last digit after "ugv" -->        
     <arg name="enable_multi_robot_avoidance" default="true" />  <!-- multi -->
     <arg name="number_of_robots" default="2"/>                   <!-- multi -->
       

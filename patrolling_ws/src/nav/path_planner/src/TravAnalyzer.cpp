@@ -27,8 +27,7 @@
 
 // #define ROBOT_CLOCKS_ARE_SYNCHED IT DOES NOT WORK
 
-
-const float TravAnalyzer::kRobotRadius = 0.4; //0.45 + 5;  // [m] robot radius for computing the clearance   
+const float TravAnalyzer::kRobotRadius = 0.4; //0.4 // 0.45 + 5;  // [m] robot radius for computing the clearance   
 const float TravAnalyzer::kRobotRadiusSquared = TravAnalyzer::kRobotRadius * TravAnalyzer::kRobotRadius; // [m^2] robot radius squared for computing the clearance 
 const float TravAnalyzer::kClearanceCollisionValue = 1000; // value of the clearance when robot the robot is in collision 
 const float TravAnalyzer::kClearanceDoCareRange = 1.0;//1.5; // [m] value of the maximum clearance for which robot cares in computing clearance cost
@@ -506,7 +505,7 @@ bool TravAnalyzer::updateTeammatePositionsFromTransform()
     
     bool got_update = false; 
 
-    std::cout << "TravAnalyzer::updateRobotToAvoidPositionFromTransform()" << std::endl;
+    std::cout << "TravAnalyzer::updateTeammatePositionsFromTransform()" << std::endl;
 
     tf::StampedTransform robot_pose;
             
@@ -528,7 +527,7 @@ bool TravAnalyzer::updateTeammatePositionsFromTransform()
         }
         catch (TransformException e)
         {
-            ROS_WARN("TravAnalyzer::updateRobotToAvoidPositionFromTransform() - %s", e.what());
+            ROS_WARN("TravAnalyzer::updateTeammatePositionsFromTransform() - %s", e.what());
         }
         
         got_update = got_update || p_transform_teammate_->isOk();
@@ -710,7 +709,7 @@ void TravAnalyzer::downSamplePath(const nav_msgs::Path& in, const PointOutI& sta
 
     int path_size = in.poses.size();
 
-    std::cout << "TravAnalyzer::downSamplePath() - path size: " << path_size << std::endl;
+    std::cout << "TravAnalyzer::downSamplePath() - input path size: " << path_size << std::endl;
 
     if (path_size == 0) return; /// < EXIT POINT 
 
@@ -727,7 +726,7 @@ void TravAnalyzer::downSamplePath(const nav_msgs::Path& in, const PointOutI& sta
         }
         if (distToRobot2 > kPathToAvoidCropDist2) break;
     }
-    
+        
     if(is_valid_robot_pose_)
     {
         // compute the min distance robot-path 
@@ -746,9 +745,12 @@ void TravAnalyzer::downSamplePath(const nav_msgs::Path& in, const PointOutI& sta
         // do not consider the path if is far
         if(min_squared_dist_path_robot > kMinDistRobotPathToConsiderPathToAvoidSquared)
         {
+            std::cout << "TravAnalyzer::downSamplePath() - dropping too far path" << std::endl;             
             filtered_path.poses.clear();
         }
     }
+    
+    std::cout << "TravAnalyzer::downSamplePath() - filtered path size: " << filtered_path.poses.size() << std::endl;       
 }
 
 void TravAnalyzer::addPathToPcl(const nav_msgs::Path& in, pcl::PointCloud<pcl::PointXYZRGBNormal>& point_cloud)

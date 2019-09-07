@@ -23,7 +23,7 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_C_FLAGS}")
 
 #endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
-endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+endif()
 
 # Add C++11 (this is required for using KdTreeFLANN.h)  <<--- CANNOT BE USED WITH PCL !! 
 # we get a runtime error: we cannot mix libraries compiled with different versions of C++ standard -> see https://github.com/felixendres/rgbdslam_v2/issues/8
@@ -195,7 +195,7 @@ catkin_package(
   INCLUDE_DIRS 
     include
   LIBRARIES 
-    normalestimation dynamicjoinpcl clusterpcl conversionpcl travanalpcl pathplanning pathplanningutils
+    normalestimation clusterpcl conversionpcl travanalpcl pathplanning pathplanningutils #dynamicjoinpcl
   CATKIN_DEPENDS 
     ${PATH_PLANNER_PKG_DEPS}
   DEPENDS 
@@ -236,13 +236,13 @@ set(PCL_LIBS_DEPS
 #   src/${PROJECT_NAME}/path_planner.cpp
 # )
 
+add_library(pathplanningutils src/Transform.cpp src/Exception.cpp)
 add_library(normalestimation src/NormalEstimationPcl.cpp)
 add_library(dynamicjoinpcl src/DynamicJoinPcl.cpp)
 add_library(clusterpcl src/ClusterPcl.cpp)
 add_library(conversionpcl src/ConversionPcl.cpp)
 add_library(travanalpcl src/TravAnalyzer.cpp)
 add_library(pathplanning src/PathPlanner.cpp src/PathPlannerManager.cpp src/MarkerController.cpp src/CostFunction.cpp)
-add_library(pathplanningutils src/Transform.cpp src/Exception.cpp)
 #add_library(marker src/MarkerController.cpp)  
 
 
@@ -258,13 +258,13 @@ target_link_libraries(pathplanning  ${PCL_LIBS_DEPS} travanalpcl)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
+add_dependencies(pathplanningutils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(normalestimation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(dynamicjoinpcl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(clusterpcl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(conversionpcl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(travanalpcl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 add_dependencies(pathplanning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
-add_dependencies(pathplanningutils ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
 ## Declare a C++ executable
 # add_executable(path_planner_node src/path_planner_node.cpp)
@@ -296,7 +296,7 @@ target_link_libraries(path_planner pathplanning travanalpcl pathplanningutils ${
 target_link_libraries(path_planner_manager pathplanning travanalpcl pathplanningutils ${catkin_LIBRARIES} ${PCL_LIBS_DEPS})
 #target_link_libraries(mapping conversionpcl dynamicjoinpcl normalestimation  ${catkin_LIBRARIES} ${PCL_LIBS_DEPS})
 target_link_libraries(traversability clusterpcl  conversionpcl travanalpcl pathplanningutils ${catkin_LIBRARIES} ${PCL_LIBS_DEPS})
-target_link_libraries(compute_normals conversionpcl normalestimation ${catkin_LIBRARIES} ${PCL_LIBS_DEPS})
+target_link_libraries(compute_normals conversionpcl normalestimation pathplanningutils ${catkin_LIBRARIES} ${PCL_LIBS_DEPS})
 
 
 set(QUEUE_PLANNER_DIR src/queue_planner)

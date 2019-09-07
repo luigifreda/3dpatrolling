@@ -22,7 +22,10 @@
 #define MAKE_NORMAL_MARKERS_H_
 
 #include <cmath>
-#include <vector>
+
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
+
 #include <set>
 
 #include <ros/ros.h>

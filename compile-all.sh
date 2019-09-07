@@ -4,6 +4,7 @@ STARTING_DIR=`pwd`
 echo STARTING_DIR: $STARTING_DIR
 
 set -e
+
 source ~/.bashrc 
 echo "VREP_ROOT_DIR: $VREP_ROOT_DIR"
 
@@ -20,6 +21,9 @@ if [ ! -f src/CMakeLists.txt ]; then
 fi
 catkin build -DCMAKE_BUILD_TYPE=Release
 cd $PATROLLING3D_HOME
+
+
+source source-all.bash 
 
 
 # get into patrolling_ws and compile it 

@@ -66,7 +66,7 @@ public:
 class CompareNodeInfoById
 {
 public:
-    bool operator()(NodeInfo lhs, NodeInfo rhs) const
+    bool operator()(const NodeInfo& lhs, const NodeInfo& rhs) const
     {
         return lhs.node_id > rhs.node_id;
     }
@@ -82,7 +82,7 @@ public:
 class CompareNodeInfoByIdleness
 {
 public:
-    bool operator()(NodeInfo lhs, NodeInfo rhs) const
+    bool operator()(const NodeInfo& lhs, const NodeInfo& rhs) const
     {
         return lhs.idleness > rhs.idleness;
     }

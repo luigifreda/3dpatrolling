@@ -33,6 +33,9 @@ for killing all the launched nodes and V-REP.
 alt="3dpatrolling - RVIZ and V-REP" border="1" /></a>
 </center>
 
+
+**NOTE**: each script launches ROS nodes within [screen](http://aperiodic.net/screen/quick_reference) sessions. [Here](../../../SCREEN.md) you can find a very concise guide on how to check the processes and attach to the spawned screen sessions. 
+
 ---
 ## How to run a path planning simulation
 

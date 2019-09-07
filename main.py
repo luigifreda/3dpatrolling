@@ -237,7 +237,8 @@ class MainWidget(QWidget):
         fileName, _ = QFileDialog.getOpenFileName(self,"Select patrolling world", self.patrollingWorldsFolder,"V-REP scenes (*.ttt)", options=options)
         if fileName:
             self.patrollingWorldName = getBaseFileNameNoExt(fileName)
-            print('world: ', self.patrollingWorldName)                         
+            print('world: ', self.patrollingWorldName)
+        self.slot_patrolling();                            
 
     def slot_patrolling_enable(self):           
         self.patrolling_enable = self.checkbtn_patrolling_enable.isChecked()

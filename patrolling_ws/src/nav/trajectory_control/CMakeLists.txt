@@ -19,6 +19,7 @@ set(TRAJECTORY_CONTROL_PKG_DEPS
   tf
   visualization_msgs
   path_planner
+  nifti_teleop
   #message_generation
 )
 

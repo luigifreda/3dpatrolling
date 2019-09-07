@@ -21,6 +21,16 @@ export XTERM_OPTIONS="-hold -iconic" # the "iconic" option allows to automatical
 
 ########################################################################################################
 
+if [[ -z "${PATROLLING3D_HOME}" ]]; then
+    echo "ERROR: missing env var PATROLLING3D_HOME"
+    echo "please, source source-all.bash in the main patrolling3d folder"
+    exit 
+else
+    source $PATROLLING3D_HOME/source-all.bash
+fi
+
+########################################################################################################
+
 if [[ -z "${LAUNCH_VREP_MODE_ENV}" ]]; then
   #using default value
   true
@@ -33,8 +43,8 @@ fi
 #- VREP
 
 if [ $LAUNCH_VREP -eq 1 ]; then
-    echo "launch vrep"
-    xterm $XTERM_OPTIONS -e "echo vrep; roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch map:=$WORLD_NAME headless:=$LAUNCH_VREP_MODE; bash" &
+    echo "launching vrep"
+    open_term VREP "echo vrep; roslaunch vrep_ugv_simulation vrep_ugv_simulation.launch map:=$WORLD_NAME headless:=$LAUNCH_VREP_MODE; bash" &
     sleep 8
 fi
 
@@ -48,8 +58,10 @@ done
 ########################################################################################################
 #- RVIZ
 
-xterm $XTERM_OPTIONS -e "echo rviz; roslaunch path_planner rviz_sim_path_planning.launch; bash" &
+open_term RVIZ "echo rviz; roslaunch path_planner rviz_sim_path_planning.launch; bash" &
 
+
+########################################################################################################
 
 echo DONE 
 

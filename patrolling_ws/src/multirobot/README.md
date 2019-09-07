@@ -37,6 +37,8 @@ alt="V-REP simulation 3dpatrolling" width="300" border="1" /> <img src="../../..
 alt="V-REP simulation 3dpatrolling" width="300" border="1" />
 </p>
 
+**NOTE**: each script launches ROS nodes within [screen](http://aperiodic.net/screen/quick_reference) sessions. [Here](../../../SCREEN.md) you can find a very concise guide on how to check the processes and attach to the spawned screen sessions. 
+
 ----
 ## How to run the patrolling strategy
 

@@ -31,7 +31,7 @@
 
 const double TrajectoryControlActionServer::kTrackDistance = 0.397; // [m] distance between tracks   
 const float TrajectoryControlActionServer::kRobotRadius = 0.5; //0.5; //0.45;  // [m] robot radius for computing the clearance
-const float TrajectoryControlActionServer::kProximityDistanceThreshold = 0.5; // [m] distance point-to-robot to enable velocity reduction 
+const float TrajectoryControlActionServer::kProximityDistanceThreshold = 0.2; // 0.5 // [m] distance point-to-robot to enable velocity reduction 
 const float TrajectoryControlActionServer::kProximityActiveAngle = 60.*M_PI/180.0; // [rad]
 
 const double TrajectoryControlActionServer::kDefaulRefVelocity = 0.2; //[m/s]  default linear velocity in m/s
@@ -56,7 +56,7 @@ const double TrajectoryControlActionServer::kDefaultAngularGainKw = 0.2; // defa
 const double TrajectoryControlActionServer::kRefAngularErrorForPureRotationControl = M_PI / 4;
 const double TrajectoryControlActionServer::kRefXYErrorForPureRotationControl = 0.5;
 
-const double TrajectoryControlActionServer::kAngularErrorThreshold = 3*M_PI / 180.; // [rad] threshold for stopping rotational control 
+const double TrajectoryControlActionServer::kAngularErrorThreshold = 4 * M_PI/180.; // [rad] threshold for stopping rotational control 
 
 const double TrajectoryControlActionServer::kDefaultDistanceOffsetPointB = 0.1; // [m] distance offset of point B from robot center (this is used in the control law) 
 // position of point B from robot pose (x,y,theta)

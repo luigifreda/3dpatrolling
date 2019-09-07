@@ -39,8 +39,10 @@
 
 #include "KdTreeFLANN.h"
 
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
+
 #include <math.h>
-#include <vector>
 #include <limits>
 #include <algorithm>
 
