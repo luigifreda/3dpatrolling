@@ -39,8 +39,12 @@ sudo apt-get install python-catkin-tools
 
 version=$(lsb_release -a 2>&1)
 if [[ $version == *"18.04"* ]] ; then
+	if [ ! -d  patrolling_ws/src/msgs ]; then
+		mkdir -p patrolling_ws/src/msgs
+	fi
 	cd patrolling_ws/src/msgs 
-	if [ ! -d  brics_actutor ]; then
+	if [ ! -d  brics_actuator ]; then
+		echo 'downloading brics_actuator'
 		git clone https://github.com/wnowak/brics_actuator
 	fi 
 	cd - 
@@ -57,7 +61,7 @@ rosdep install --from-paths mapping_ws/src --ignore-src -r
 rosdep install --from-paths patrolling_ws/src --ignore-src -r
 
 
-sudo apt-get install -y python-rosinstall
+sudo apt-get install -y python-rosinstall python-rospkg
 sudo apt-get install -y ros-$ROS_DISTRO-octomap-mapping ros-$ROS_DISTRO-octomap-msgs ros-$ROS_DISTRO-octomap-ros ros-$ROS_DISTRO-octomap-server
 sudo apt-get install -y ros-$ROS_DISTRO-move-base-msgs 
 sudo apt-get install -y ros-$ROS_DISTRO-move-base
@@ -74,7 +78,7 @@ sudo apt-get install -y libqt4-dev xterm
 sudo apt-get install -y libnss3-dev
 
 sudo apt-get install -y liboctomap-dev
-sudo apt-get install -y protobuf-compiler
+sudo apt-get install -y protobuf-compiler libgoogle-glog-dev
 
 
 # these are necessary for the qt application with PyQt5
