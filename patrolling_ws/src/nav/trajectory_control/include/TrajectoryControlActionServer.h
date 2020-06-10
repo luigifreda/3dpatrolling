@@ -82,7 +82,7 @@ public:
     enum ControlLawType
     {
         kInputOutputFL = 0, 
-        kNonLinear
+        kNonLinear = 1
     }; 
 
     

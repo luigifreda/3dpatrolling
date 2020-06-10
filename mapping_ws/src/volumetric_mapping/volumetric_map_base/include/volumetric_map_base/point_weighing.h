@@ -30,8 +30,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef VOLUMETRIC_MAP_BASE_WEIGHING_FUNCTION_H_
 #define VOLUMETRIC_MAP_BASE_WEIGHING_FUNCTION_H_
 
-#include <vector>
-
 namespace volumetric_mapping {
 
 // A base class for weighing functions: each weighing function should take in

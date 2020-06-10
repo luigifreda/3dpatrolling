@@ -92,6 +92,8 @@ message(STATUS "Found Eigen3 in: ${EIGEN3_INCLUDE_DIR}")
 find_package(PCL REQUIRED)
 add_definitions(${PCL_DEFINITIONS})
 
+add_definitions(-DPCL_NO_PRECOMPILE)  # custom for this project 
+
 message(STATUS "==============================================================") 
 message(STATUS "Found PCL in: ${PCL_INCLUDE_DIRS}")
 message(STATUS "PCL libs: ${PCL_LIBRARIES}") 

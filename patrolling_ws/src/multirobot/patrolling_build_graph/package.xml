@@ -40,6 +40,7 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  
   <build_depend>geometry_msgs</build_depend>
   <build_depend>pcl_conversions</build_depend>
   <build_depend>pcl_ros</build_depend>
@@ -51,7 +52,9 @@
   <build_depend>patrolling_build_graph_msgs</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>trajectory_control_msgs</build_depend>
+  <build_depend>patrolling_build_graph_msgs</build_depend>  
   <build_depend>robot_trajectory_saver_msgs</build_depend>
+    
   <run_depend>geometry_msgs</run_depend>
   <run_depend>pcl_conversions</run_depend>
   <run_depend>pcl_ros</run_depend>

@@ -33,7 +33,6 @@ for killing all the launched nodes and V-REP.
 alt="3dpatrolling - RVIZ and V-REP" border="1" /></a>
 </center>
 
-
 **NOTE**: each script launches ROS nodes within [screen](http://aperiodic.net/screen/quick_reference) sessions. [Here](../../../SCREEN.md) you can find a very concise guide on how to check the processes and attach to the spawned screen sessions. 
 
 ---
@@ -127,4 +126,56 @@ For each robot, the built volumetric map is segmented in traversable regions (gr
 
 You can check and modify some of the configuration parameters of the running nodes (for the navigation stack) by running:
 `$ rosrun rqt_reconfigure rqt_reconfigure `
+
+
+----
+## How to build, save and load a volumetric map 
+
+If you want to build and save a new volumetric map, first, you have to move the robot around and, then, save the built map. After this process, you can reload the saved map. In particular, you can perform this process by following these steps. 
+
+First, run the script:   
+```
+$ rosrun path_planner sim_launcher_navigation
+``` 
+or launch the path planner system by using our PyQt GUI (as explained above). 
+
+Then, move robot `ugvi` around by using the `TeleOp ugvi` window. For saving data, use `ugv1` and click on the small window `TeleOp ugv1`: you can use keyboard arrows and `W`,`A`,`S`,`D` keys to move the robot around and play with the flippers. 
+
+To save the map and the robot trajectory, you can run the script `save_map`. This will save the map and the trajectories in the set destination folder (see the input variable `DEST_FOLDER=/tmp` in the same script `save_map`).
+
+You can use the scripts `save_map` and `load_map` for saving and loading a map respectively. In particular, the following commands are used within the scripts to save and load a map:
+* save the map (if you are using `ugv1`):   
+`$ rosservice call /volumetric_mapping_ugv1/save_map "file_path: '/tmp/map.bt'"  `   
+or (for a "shared" mapping system)
+`$ rosservice call /volumetric_mapping/save_map "file_path: '/tmp/map.bt'"  ` 
+
+* load a saved map (if you are using `ugv1`):  
+`$ rosservice call /volumetric_mapping/load_map "file_path: '/tmp/map.bt'"  `  
+or (for a "shared" mapping system)   
+`$ rosservice call /volumetric_mapping_ugv1/load_map "file_path: '/tmp/map.bt'"  `  
+
+**N.B.:** If you use the Qt GUI:   
+* The button `Save map` allows saving the current maps (this launches the script `save_map`).   
+* The button `Load map` allows loading a saved map (this launches the script `load_map`).
+
+The maps will be saved in the binary format `.bt`. If you want to save the map in another format, you can use the [point_cloud_io](https://github.com/ANYbotics/point_cloud_io) ROS package that allows to read and save point cloud in `.ply` format. This ROS package is now integrated in the [mapping workspace](../../../mapping_ws/src/README.md). In particular, you can subscribe and save point clouds to a `ply` file with
+```
+$ rosrun point_cloud_io write _topic:=/vrep/ugv1/local_map _folder_path:=/home/user/my_point_clouds
+```
+
+Optionally, you can set parameters to fit the point cloud file names to your needs:
+
+- `_file_prefix:=my_prefix` (default: "point_cloud")
+- `_file_ending:=my_ending` (default: "ply", currently only format which is supported for writing)
+- `_add_counter_to_path:=false` (default: `true`)
+- `_add_frame_id_to_path:=true` (default: `false`)
+- `_add_stamp_sec_to_path:=true` (default: `false`)
+- `_add_stamp_nsec_to_path:=true` (default: `false`)
+
+
+Alternatively, you can run (from [http://wiki.ros.org/pcl_ros](http://wiki.ros.org/pcl_ros))
+```
+ $ rosrun pcl_ros pointcloud_to_pcd input:=/vrep/ugv1/local_map
+```
+which subscribes to the `/vrep/ugv1/local_map` topic and save each `pointcloud2` message in the current directory in `pcd` format. File names look like `1285627014.833100319.pcd`, the exact names depending on the message time stamps. 
 

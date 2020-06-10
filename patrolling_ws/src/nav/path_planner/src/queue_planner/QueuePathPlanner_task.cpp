@@ -116,12 +116,6 @@ void QueuePathPlanner::taskTimerCallback(const ros::TimerEvent& timer_msg)
                 // append poses to the complete path
                 path_msg.poses.insert(path_msg.poses.end(), p_segment->path.poses.begin(), p_segment->path.poses.end());
 
-                // delete the task's segment
-                // (this line should not be commented but there is an
-                // estrange issue related to a 'double free error'
-                // with the pcl::KdTreeFLANN objects, so to avoid
-                // the crash of the planner, we allow some memory leaks) 
-                //delete segment;
             }
 
             global_path_msg.path = path_msg;
@@ -185,12 +179,6 @@ void QueuePathPlanner::taskTimerCallback(const ros::TimerEvent& timer_msg)
                 // join the planning thread
                 p_segment->thread.join();
 
-                // delete the task's segment
-                // (this line should not be commented but there is an
-                // estrange issue related to a 'double free error'
-                // with the pcl::KdTreeFLANN objects, so to avoid
-                // the crash of the planner, we allow some memory leaks) 
-                //delete segment;
             }
 
             // advertise feedback to the waypoints tool

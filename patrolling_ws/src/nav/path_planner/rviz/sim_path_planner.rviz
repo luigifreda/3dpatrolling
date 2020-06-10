@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Status1
-      Splitter Ratio: 0.8635293841362
+      Splitter Ratio: 0.8432432413101196
     Tree Height: 806
   - Class: rviz/Selection
     Name: Selection
@@ -554,6 +554,36 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Alpha: 0.699999988079071
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.4375
+        Min Value: -0.03750000149011612
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: true
+      Max Color: 85; 0; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: /ugv1/volumetric_mapping/octomap_pcl - PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.019999999552965164
+      Style: Flat Squares
+      Topic: /vrep/ugv1/local_map
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -569,9 +599,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: true
       Max Color: 255; 0; 0
-      Max Intensity: 96.96888732910156
+      Max Intensity: 52.53036117553711
       Min Color: 0; 255; 0
-      Min Intensity: 4.568503379821777
+      Min Intensity: 4.5419921875
       Name: /ugv1/traversability - PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -674,6 +704,36 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Alpha: 0.699999988079071
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.4375
+        Min Value: -0.03750000149011612
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: true
+      Max Color: 85; 0; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: /ugv2/volumetric_mapping/octomap_pcl - PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.019999999552965164
+      Style: Flat Squares
+      Topic: /vrep/ugv2/local_map
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -689,9 +749,9 @@ Visualization Manager:
       Enabled: false
       Invert Rainbow: false
       Max Color: 255; 0; 0
-      Max Intensity: 125.82099914550781
+      Max Intensity: 102.03710174560547
       Min Color: 0; 255; 0
-      Min Intensity: 5.0622100830078125
+      Min Intensity: 4.542906284332275
       Name: /ugv2/traversability - PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -794,6 +854,36 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Alpha: 0.699999988079071
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.4375
+        Min Value: -0.03750000149011612
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: true
+      Max Color: 85; 0; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: /ugv3/volumetric_mapping/octomap_pcl - PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.019999999552965164
+      Style: Flat Squares
+      Topic: /vrep/ugv3/local_map
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -809,9 +899,9 @@ Visualization Manager:
       Enabled: false
       Invert Rainbow: false
       Max Color: 255; 0; 0
-      Max Intensity: 74.63903045654297
+      Max Intensity: 92.5308609008789
       Min Color: 0; 255; 0
-      Min Intensity: 3.5333478450775146
+      Min Intensity: 4.542906284332275
       Name: /ugv3/traversability - PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -850,6 +940,36 @@ Visualization Manager:
       Size (m): 0.029999999329447746
       Style: Flat Squares
       Topic: /vrep/ugv3/clustered_pcl/wall
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 0.699999988079071
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.4375
+        Min Value: -0.03750000149011612
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: true
+      Max Color: 85; 0; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: /ugv4/volumetric_mapping/octomap_pcl - PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.019999999552965164
+      Style: Flat Squares
+      Topic: /vrep/ugv4/local_map
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -1240,36 +1360,6 @@ Visualization Manager:
       Show Visual Aids: false
       Update Topic: /vrep/ugv2/patrolling_marker_controller/update
       Value: true
-    - Alpha: 0.699999988079071
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 2.4375
-        Min Value: -0.03750000149011612
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: FlatColor
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: true
-      Max Color: 85; 0; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: /volumetric_mapping/octomap_pcl - PointCloud2
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.019999999552965164
-      Style: Flat Squares
-      Topic: /vrep/ugv1/local_map
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -1674,10 +1764,11 @@ Visualization Manager:
       Marker Topic: /vrep/ugv1/expl_planner/inspection_path
       Name: /ugv1/expl_planner/inspection_path - Marker
       Namespaces:
-        vp_branches: true
-        vp_tree: true
-        workspace: true
-      Queue Size: 1
+        search_tree_bounds: true
+        search_tree_edges: true
+        search_tree_nodes: true
+        search_tree_texts: true
+      Queue Size: 10000
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
@@ -1757,10 +1848,11 @@ Visualization Manager:
       Marker Topic: /vrep/ugv2/expl_planner/inspection_path
       Name: /ugv2/expl_planner/inspection_path - Marker
       Namespaces:
-        vp_branches: true
-        vp_tree: true
-        workspace: true
-      Queue Size: 1
+        search_tree_bounds: true
+        search_tree_edges: true
+        search_tree_nodes: true
+        search_tree_texts: true
+      Queue Size: 10000
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
@@ -1841,7 +1933,7 @@ Visualization Manager:
       Name: /ugv3/expl_planner/inspection_path - Marker
       Namespaces:
         {}
-      Queue Size: 1
+      Queue Size: 10000
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
@@ -1922,7 +2014,7 @@ Visualization Manager:
       Name: /ugv4/expl_planner/inspection_path - Marker
       Namespaces:
         {}
-      Queue Size: 1
+      Queue Size: 10000
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
@@ -2005,25 +2097,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 22.212343215942383
+      Distance: 20.56658935546875
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.17642542719841003
-        Y: 4.2389726638793945
-        Z: -2.043980121612549
+        X: 1.298120379447937
+        Y: 4.149460792541504
+        Z: -1.345279574394226
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5497963428497314
+      Pitch: 1.1547967195510864
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.708543300628662
+      Yaw: 4.68856143951416
     Saved: ~
 Window Geometry:
   Displays:
@@ -2031,7 +2123,7 @@ Window Geometry:
   Height: 1026
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ab00000363fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000204000000f0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000363000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001c0041006400760061006e00630065006400570069006400670065007401000002ea000000670000000000000000fb0000001c0041006400760061006e0063006500640057006900640067006500740100000357000000670000000000000000fb0000001c0041006400760061006e006300650064005700690064006700650074010000034a000000780000000000000000000000010000010f00000396fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000396000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074b0000003ffc0100000002fb0000000800540069006d006501000000000000074b000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000059a0000036300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001a500000363fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000204000000f0fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000363000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001c0041006400760061006e00630065006400570069006400670065007401000002ea000000670000000000000000fb0000001c0041006400760061006e0063006500640057006900640067006500740100000357000000670000000000000000fb0000001c0041006400760061006e006300650064005700690064006700650074010000034a000000780000000000000000000000010000010f00000396fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000396000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074b0000003ffc0100000002fb0000000800540069006d006501000000000000074b000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000005a00000036300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

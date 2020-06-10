@@ -34,6 +34,17 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system thread)
 
+find_package(PCL REQUIRED)
+add_definitions(${PCL_DEFINITIONS})
+
+add_definitions(-DPCL_NO_PRECOMPILE)  # custom for this project (since we are using the path planner lib)
+
+message(STATUS "==============================================================") 
+message(STATUS "Found PCL in: ${PCL_INCLUDE_DIRS}")
+message(STATUS "PCL libs: ${PCL_LIBRARIES}") 
+message(STATUS "pcl_ros libs: ${pcl_ros_LIBRARIES}") 
+message(STATUS "==============================================================") 
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed

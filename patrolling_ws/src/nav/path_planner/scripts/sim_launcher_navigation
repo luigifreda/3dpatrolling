@@ -14,6 +14,7 @@ LAUNCH_VREP_MODE=2 # 0 launch VREP in normal mode (you have to press the button 
 # the following worlds are available in the folder "patrolling_ws/src/vrep/vrep_ugv_simulation/data"
 #WORLD_NAME=ugv1_rescue_grousers 
 WORLD_NAME=ugv1n2_rescue_grousers
+#WORLD_NAME=3Dring1
 
 NUM_ROBOTS=2
 

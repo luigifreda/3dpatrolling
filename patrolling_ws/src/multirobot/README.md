@@ -39,7 +39,7 @@ alt="V-REP simulation 3dpatrolling" width="300" border="1" />
 
 **NOTE**: each script launches ROS nodes within [screen](http://aperiodic.net/screen/quick_reference) sessions. [Here](../../../SCREEN.md) you can find a very concise guide on how to check the processes and attach to the spawned screen sessions. 
 
-----
+---
 ## How to run the patrolling strategy
 
 Open a new terminal, enter in the root folder of the repo `3dpatrolling` and run:   
@@ -105,7 +105,7 @@ V-REP can be launched in different modes. To this aim, you can use the input var
 
 If you use the Qt GUI, the option `V-REP mode` allows selecting the value of the variable `LAUNCH_VREP_MODE`.
 
-----
+---
 ## Patrolling scenarios  
 
 The patrolling scenes are collected in the folder `patrolling3d_sim/maps`. In this folder, you can find a specific subfolder `my-awesome-scenario` for each possible scenario you may want to use. In particular, inside a new folder `my-awesome-scenario`, you have to place:

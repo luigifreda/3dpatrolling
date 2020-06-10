@@ -93,6 +93,9 @@ public:
     static const float kRobotZOffset; // [m] how much each point is pushed higher from the map in the robot direction (TODO: we should use here local normals!) 
     
     static const double kObstPclResetTime; // [s] if elapsed time from last obst pcl check is > kObstPclResetTime then obst_pcl is not used anymore
+    static const double kObstDistDiscardIfCloseToNoWall; // [m] distance threshold between (obstacle point, closest noWall point) to discard obstacle point 
+    static const double kObstDist2DiscardIfCloseToNoWall; // squared distance     
+    
     static const double kTeammatePositionResetTime; // [s]
     static const double kTeammatePathResetTime; // [s]
     

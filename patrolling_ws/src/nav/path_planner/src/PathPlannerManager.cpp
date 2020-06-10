@@ -231,7 +231,8 @@ PathPlannerManager::PlannerStatus PathPlannerManager::doPathPlanning()
     float distance3D_to_goal = 0;
     float distance2D_to_goal = 0;
     {
-        pcl::PointXYZI goal_position = goal_position_; //p_path_planner_->getGoal(); // do not get the goal from the path planner since it is still not set 
+        const pcl::PointXYZI goal_position = goal_position_; //p_path_planner_->getGoal(); // do not get the goal from the path planner since it is still not set in p_path_planner_
+        ROS_INFO_STREAM("goal position: ("<< goal_position_.x << "," << goal_position_.y << "," << goal_position_.z << ")");        
         distance2D_to_goal = PathPlanner::dist2D(goal_position, robot_position);
         distance3D_to_goal = PathPlanner::dist(goal_position, robot_position);     
         std::cout << "PathPlannerManager::doPathPlanning() - distance to goal - 3D: " << distance3D_to_goal <<", 2D: " << distance2D_to_goal << std::endl;
@@ -257,9 +258,6 @@ PathPlannerManager::PlannerStatus PathPlannerManager::doPathPlanning()
         boost::recursive_mutex::scoped_lock locker_traversability(traversability_mutex_);
         boost::recursive_mutex::scoped_lock locker_utility(utility_2d_mutex_); 
         
-        //cropPcl((CropBoxMethod)crop_step_, robot_position, goal_position_, traversability_pcl_, p_traversability_pcl);
-        //if(b_utility_2d_info_available_)
-        //    cropPcl((CropBoxMethod)crop_step_, robot_position, goal_position_, utility_2d_pcl_, p_utility_2d_pcl);
         if(b_utility_2d_info_available_)
         {
             cropTwoPcls((CropBoxMethod)crop_step, robot_position, goal_position_, traversability_pcl_, utility_2d_pcl_,
@@ -323,6 +321,7 @@ PathPlannerManager::PlannerStatus PathPlannerManager::doPathPlanning()
 
             if (crop_step < kNumCropBoxMethod)
             {
+                /// < update robot position
                 is_transform_ok = getRobotPosition(robot_position);
                 if(!is_transform_ok) 
                 {
@@ -330,6 +329,7 @@ PathPlannerManager::PlannerStatus PathPlannerManager::doPathPlanning()
                     return kTransformFailure; /// < EXIT POINT 
                 }
                     
+                /// < check distance to the goal (arrived?)                
                 {
                     boost::recursive_mutex::scoped_lock goal_locker(goal_mutex_);
                     pcl::PointXYZI goal_position = p_path_planner_->getGoal(); // get the goal from the path planner since it is set 
@@ -383,6 +383,34 @@ PathPlannerManager::PlannerStatus PathPlannerManager::doPathPlanning()
             }
         }
     }
+    
+    
+    /// < update robot position
+    is_transform_ok = getRobotPosition(robot_position);
+    if(!is_transform_ok) 
+    {
+        planning_status_ = kTransformFailure; 
+        return kTransformFailure; /// < EXIT POINT 
+    }
+
+    /// < check distance to the goal (arrived?)                
+    {
+        boost::recursive_mutex::scoped_lock goal_locker(goal_mutex_);
+        const pcl::PointXYZI goal_position = p_path_planner_->getGoal(); // get the goal from the path planner since it is set 
+        ROS_INFO_STREAM("goal position: ("<< goal_position_.x << "," << goal_position_.y << "," << goal_position_.z << ")");                
+        distance2D_to_goal = PathPlanner::dist2D(goal_position, robot_position);
+        distance3D_to_goal = PathPlanner::dist(goal_position, robot_position);
+        std::cout << "PathPlannerManager::doPathPlanning() - distance to goal - 3D: " << distance3D_to_goal <<", 2D: " << distance2D_to_goal << std::endl;
+    }
+    if(distance3D_to_goal < k3DDistanceCloseToGoal)
+    {
+        b_is_close_to_goal_ = true; 
+    }
+    if( (distance3D_to_goal < k3DDistanceArrivedToGoal) && (distance2D_to_goal < k2DDistanceArrivedToGoal) )
+    {
+        planning_status_ = kArrived;                     
+        return kArrived; /// < EXIT POINT 
+    }   
     
      
     if(b_successful_planning)
@@ -459,6 +487,11 @@ PathPlannerManager::PlannerStatus PathPlannerManager::pathPlanningServiceCallbac
         {
             cropPcl((CropBoxMethod)crop_step, start_position, end_position, traversability_pcl_, p_traversability_pcl);
         }
+    }
+    if(p_traversability_pcl->empty())
+    {
+        ROS_WARN("PathPlannerManager::pathPlanningServiceCallback() - point cloud empty");
+        return kInputFailure; /// < EXIT POINT         
     }
     // organize cropped traversability points
     traversability_kdtree.setInputCloud(p_traversability_pcl);

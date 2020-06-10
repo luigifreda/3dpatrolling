@@ -149,7 +149,7 @@ class WorldBase {
   // Checks a path (assumed to be time-ordered) for collision.
   // Sets the second input to the index at which the collision occurred.
   virtual bool checkPathForCollisionsWithRobot(
-      const std::vector<Eigen::Vector3d>& robot_positions,
+      const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& robot_positions,
       size_t* collision_index) {
     return false;
   }

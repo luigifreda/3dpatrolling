@@ -107,15 +107,18 @@ public:
     // compute path
     PlannerStatus doPathPlanning();
     
+    bool checkIfWeArrived();    
+    
 public: /// < setters 
     
-    void setGoal(pcl::PointXYZI& goal)
+    void setGoal(const pcl::PointXYZI& goal)
     {
         boost::recursive_mutex::scoped_lock goal_locker(goal_mutex_);
         goal_position_ = goal;
         if(!b_goal_selected_) b_goal_selected_ = true; 
         b_is_close_to_goal_ = false; 
         b_found_a_solution_once_ = false;
+        std::cout << "PathPlannerManager::setGoal() - goal: (" << goal_position_.x << "," << goal_position_.y << "," << goal_position_.z << ")" << std::endl;
     }
     
     void setNoGoal()

@@ -276,6 +276,9 @@ void PathPlanner::sampleFollowers()
     //double w = weight(radius);
     double w = std::min(weight(radius), 1.d);
     int weighted_neighbors_size = lrint(w * neighbors.size());
+    
+    bool b_publish_markers = markerArrPub_.getNumSubscribers()>0;
+    
     while ((num_generated_followers < weighted_neighbors_size) && (num_random_samples < neighbors.size()))
     {
         // Generate a random sample by using traversability-based probability 
@@ -320,23 +323,28 @@ void PathPlanner::sampleFollowers()
 #endif
             visited_points_flag_[child.point_idx] = true;
 
-            visualization_msgs::Marker marker;
-            marker.header.frame_id = "/map";
-            marker.header.stamp = ros::Time::now();
-            marker.type = visualization_msgs::Marker::SPHERE;
-            marker.action = visualization_msgs::Marker::ADD;
-            marker.scale.x = marker.scale.y = marker.scale.z = 0.05;
-            marker.color.a = 1.0;
-            marker.color.r = 0.0;
-            marker.color.g = 0.0;
-            marker.color.b = 1.0;
-            marker.pose.position.x = pcl_traversability_[neighbors[i].point_idx].x;
-            marker.pose.position.y = pcl_traversability_[neighbors[i].point_idx].y;
-            marker.pose.position.z = pcl_traversability_[neighbors[i].point_idx].z;
-            marker.lifetime = ros::Duration(5);
-            marker.id = markerArr_.markers.size() + 1;
-            markerArr_.markers.push_back(marker);
+            if(b_publish_markers)
+            {
+                visualization_msgs::Marker marker;
+                marker.header.frame_id = "/map";
+                marker.header.stamp = ros::Time::now();
+                marker.type = visualization_msgs::Marker::SPHERE;
+                marker.action = visualization_msgs::Marker::ADD;
+                marker.scale.x = marker.scale.y = marker.scale.z = 0.05;
+                marker.color.a = 1.0;
+                marker.color.r = 0.0;
+                marker.color.g = 0.0;
+                marker.color.b = 1.0;
+                marker.pose.position.x = pcl_traversability_[neighbors[i].point_idx].x;
+                marker.pose.position.y = pcl_traversability_[neighbors[i].point_idx].y;
+                marker.pose.position.z = pcl_traversability_[neighbors[i].point_idx].z;
+                marker.lifetime = ros::Duration(5);
+                marker.id = markerArr_.markers.size() + 1;
+                markerArr_.markers.push_back(marker);
+            }
+            
             num_generated_followers++;
+            
 #ifdef VERBOSE2            
             std::cout << num_generated_followers << std::endl;
 #endif
@@ -365,7 +373,7 @@ void PathPlanner::sampleFollowers()
 #endif
 #endif
 
-    markerArrPub_.publish(markerArr_);
+    if(b_publish_markers) markerArrPub_.publish(markerArr_);
 
     //Add the current point to the path
 }

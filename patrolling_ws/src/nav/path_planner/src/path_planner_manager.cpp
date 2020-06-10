@@ -182,6 +182,14 @@ public: // getters
         return d_estimated_distance_;
     }
     
+    void printWayPoints()
+    {
+        for (size_t ii = 0, iiEnd = path_.waypoints.size(); ii < iiEnd; ii++)
+        {
+            std::cout << "WP" << ii << ": (" << path_.waypoints[ii].x << ", " << path_.waypoints[ii].y <<", " << path_.waypoints[ii].z <<")" << std::endl; 
+        }        
+    }
+    
 public:
     
     boost::recursive_mutex mutex_;
@@ -214,7 +222,7 @@ ros::Subscriber queue_task_feedback_sub; // to know when to stop
 ros::Subscriber queue_task_path_sub; // path to follow
 
 std::string queue_task_feedback_topic;
-std::string queue_task_path_topic;
+//std::string queue_task_path_topic;
 
 
 /// < declarations 
@@ -249,6 +257,8 @@ void publishEmptyRobotPathToDraw()
 {
     // this is useful for 
     nav_msgs::Path path; // empty path 
+    path.header.stamp = ros::Time::now();
+    path.header.frame_id = "/map";
     robot_global_path_draw_pub.publish(path);
     robot_local_path_draw_pub.publish(path);   
 }
@@ -257,6 +267,8 @@ void publishEmptyRobotLocalPathToDraw()
 {
     // this is useful for 
     nav_msgs::Path path; // empty path 
+    path.header.stamp = ros::Time::now();
+    path.header.frame_id = "/map";    
     robot_local_path_draw_pub.publish(path);   
 }
 
@@ -410,7 +422,10 @@ void doPathPlanning()
         {      
         msg_plan_status.success   = true;
         msg_plan_status.status    = trajectory_control_msgs::PlanningStatus::kSuccess;
+        {
+        boost::recursive_mutex::scoped_lock locker(global_path.mutex_);
         msg_plan_status.path_cost = p_planner_manager->getPathCost() + global_path.remaning_cost_path_;
+        }
         path_plan_stat_pub.publish(msg_plan_status);
         boost::recursive_mutex::scoped_lock time_locker(last_pp_success_timemutex_);
         time_last_path_planning_success = ros::Time::now();
@@ -477,6 +492,9 @@ void doPathPlanning()
 
 void traversabilityCloudCallback(const sensor_msgs::PointCloud2& traversability_msg)
 {
+    std::cout << "===============================================" << std::endl;
+    std::cout << "traversabilityCloudCallback() " << std::endl;
+    
     p_planner_manager->traversabilityCloudCallback(traversability_msg);
     
     rssManagement(traversability_msg);
@@ -689,9 +707,11 @@ bool isRobotFarFromFirstWp()
         robot_point.y = robot_pose.getOrigin().getY();
         robot_point.z = robot_pose.getOrigin().getZ();
 
+        {
+        boost::recursive_mutex::scoped_lock locker(global_path.mutex_);            
         geometry_msgs::Point first_wp = global_path.path_.waypoints[0];
-        
         res = (PathPlanner::dist(first_wp,robot_point) > kMaxDistanceFromFirstWaypoint);
+        }
     }
     
     return res; 
@@ -703,7 +723,8 @@ void localGoalCallback()
 
     if (global_path.isSet()) 
     {
-        std::cout << "localGoalCallback() - waypoint " << global_path.current_waypoint_idx_ + 1 << "/"<< global_path.num_waypoints_ << std::endl;
+        global_path.printWayPoints();
+        std::cout << "localGoalCallback() - current waypoint WP" << global_path.current_waypoint_idx_ << " (" <<global_path.current_waypoint_idx_ + 1 << "/"<< global_path.num_waypoints_ <<")"<< std::endl;
         
         if(global_path.isLastWaypoint() && !global_path.isPathCyclic()) 
         {
@@ -719,7 +740,7 @@ void localGoalCallback()
         pcl::PointXYZI next_goal_point;
 
         /// < get the last reached pose of the path and set it as goal 
-        geometry_msgs::Point next_point = global_path.path_.waypoints[global_path.current_waypoint_idx_];
+        const geometry_msgs::Point& next_point = global_path.path_.waypoints[global_path.current_waypoint_idx_];
         next_goal_point.x = next_point.x;
         next_goal_point.y = next_point.y;
         next_goal_point.z = next_point.z;
@@ -745,18 +766,24 @@ void localGoalCallback()
         robot_point.z = robot_pose.getOrigin().getZ();
         
 
-        /// < if the current local goal is too far then select a point on the trajectory as a new goal 
+        /// < if the current local goal is too far, then select a point on the trajectory as a new goal 
         if(is_ok_transform && (PathPlanner::dist(next_point,robot_point) > kMaxDistanceToNextWaypoint) )
         {
+            //std::cout << "selecting an intermediate waypoint on the trajectory" << std::endl; 
             b_global_goal = false;
             for (/*idx_local_goal = 0*/; global_path.current_local_goal_idx_ < global_path.path_.path.poses.size(); global_path.current_local_goal_idx_++)
             {
                 /// < (TODO: this distance should be computed on the path... but the robot could be even far from the path!)
                 if( PathPlanner::dist(global_path.path_.path.poses[global_path.current_local_goal_idx_].pose.position,robot_point) > kMaxDistanceToNextWaypoint )
-                {
+                {                 
                     break;
                 }
             }
+            if(global_path.current_local_goal_idx_ >= global_path.path_.path.poses.size())
+            {
+                global_path.current_local_goal_idx_ = global_path.path_.path.poses.size()-1;
+            }
+            //std::cout << "selected idx " << global_path.current_local_goal_idx_ << " of " << global_path.path_.path.poses.size() << std::endl; 
             
             next_goal_point.x = global_path.path_.path.poses[global_path.current_local_goal_idx_].pose.position.x;
             next_goal_point.y = global_path.path_.path.poses[global_path.current_local_goal_idx_].pose.position.y;
@@ -780,6 +807,7 @@ void globalPathCallback(const trajectory_control_msgs::PlanningGlobalPath& globa
     global_path.num_waypoints_ = global_path.path_.waypoints.size();
     
     std::cout << "globalPathCallback() - num waypoints: " << global_path.num_waypoints_ << std::endl;
+    global_path.printWayPoints();
     
     // reset replanning attempts after unexpected failure (environment change)
     remaining_planning_attempts_after_unexpected_failure = kMaxNumReplanningAttemptsAfterUnexpectedFailure;
@@ -1024,7 +1052,7 @@ int main(int argc, char **argv)
     b_enable_laser_proximity_callback = getParam<bool>(n, "enable_laser_proximity_callback", false);
 
     queue_task_feedback_topic = getParam<std::string>(n, "queue_task_feedback_topic", "/planner/tasks/feedback");
-    queue_task_path_topic     = getParam<std::string>(n, "queue_task_path_topic", "/planner/tasks/path");
+    //queue_task_path_topic     = getParam<std::string>(n, "queue_task_path_topic", "/planner/tasks/path");
 
     int cost_function_type = getParam<int>(n, "cost_function_type", (int)BaseCostFunction::kSimpleCost);
     double lambda_trav                  = getParam<double>(n, "lambda_trav", 1.0);
@@ -1118,7 +1146,7 @@ int main(int argc, char **argv)
     /// < just for for testing
     //ros::Subscriber sub_rssi = n.subscribe("/RSS_PointCloud2", 1, rssiCloudCallback);
 
-    ros::MultiThreadedSpinner spinner(4); // Use 4 threads
+    ros::MultiThreadedSpinner spinner(2); // Use 2-4 threads
     spinner.spin(); // spin() will not return until the node has been shutdown
     //ros::spin();
 

@@ -27,7 +27,7 @@
 
 // #define ROBOT_CLOCKS_ARE_SYNCHED IT DOES NOT WORK
 
-const float TravAnalyzer::kRobotRadius = 0.4; //0.4 // 0.45 + 5;  // [m] robot radius for computing the clearance   
+const float TravAnalyzer::kRobotRadius = 0.5; //0.4 // 0.45 + 5;  // [m] robot radius for computing the clearance   
 const float TravAnalyzer::kRobotRadiusSquared = TravAnalyzer::kRobotRadius * TravAnalyzer::kRobotRadius; // [m^2] robot radius squared for computing the clearance 
 const float TravAnalyzer::kClearanceCollisionValue = 1000; // value of the clearance when robot the robot is in collision 
 const float TravAnalyzer::kClearanceDoCareRange = 1.0;//1.5; // [m] value of the maximum clearance for which robot cares in computing clearance cost
@@ -39,7 +39,11 @@ const float TravAnalyzer::kPathToAvoidCropDist2 = TravAnalyzer::kPathToAvoidCrop
 const float TravAnalyzer::kPathToAvoidResolution = 0.1; // [m] resolution of the path to avoid
 const float TravAnalyzer::kPathToAvoidResolution2 = TravAnalyzer::kPathToAvoidResolution*TravAnalyzer::kPathToAvoidResolution; // [m] squared kPathToAvoidResolution
 const float TravAnalyzer::kTraversabilityMaxCost = 100; // max cost for a traversability point 
+
 const double TravAnalyzer::kObstPclResetTime = 1; // [s] if elapsed time from last obst pcl check is > kObstPclResetTime the obst_pcl is not used anymore
+const double TravAnalyzer::kObstDistDiscardIfCloseToNoWall = 0.07; // [m] distance threshold between (obstacle point, closest traversable point) to discard obstacle point in clearance computation
+const double TravAnalyzer::kObstDist2DiscardIfCloseToNoWall = TravAnalyzer::kObstDistDiscardIfCloseToNoWall * TravAnalyzer::kObstDistDiscardIfCloseToNoWall; // squared distance   
+
 const double TravAnalyzer::kTeammatePositionResetTime = 4; // [s]
 const double TravAnalyzer::kTeammatePathResetTime     = 10; // [s]
 
@@ -49,7 +53,7 @@ const float TravAnalyzer::kMinDistRobotPathToConsiderPathToAvoidSquared  = TravA
 const float TravAnalyzer::kClearanceLambda = 5; // 
 const float TravAnalyzer::kNeighborhoodDeltaZ = 0.1; // [m]
 
-const float TravAnalyzer::kRobotZOffset = 0.2; // [m] how much each point is pushed higher from the map in the robot direction (TODO: we should use here local normals!)
+const float TravAnalyzer::kRobotZOffset = 0.2; // [m] how much each point is pushed higher from the map in the robot direction (we could also use here local normals!)
     
 //static const float kDeltaRadiusSquared = std::max(TravAnalyzer::kRobotToAvoidRadiusSquared - TravAnalyzer::kRobotRadiusSquared, 0.f);
 
@@ -396,9 +400,25 @@ double TravAnalyzer::computeClearance(int point_index)
         int n_found = obst_pcl_kdtree_.nearestKSearch(point, 1, pointIdxNKNSearch, pointNKNSquaredDistance);
         if(n_found > 0)
         {
-            dist_obst_pcl_squared = pointNKNSquaredDistance[0];
-            dist_squared = std::min(dist_squared, dist_obst_pcl_squared);
-            //std::cout << "TravAnalyzer::computeClearance() - dist_obst_pcl_squared : " <<  dist_obst_pcl_squared << std::endl;
+#if 1            
+            // compute distance of found obstacle point from its closest non-wall point 
+            // let's check if the obstacle point lies on a non-wall area (for instance, if the robot is going down at the end of a slope then it may detect the horizontal ground as an obstacle)
+            // if this is the case, we can discard it 
+            const pcl::PointXYZRGBNormal& obst_point = obst_pcl_[pointIdxNKNSearch[0]];
+            std::vector<int> pointObstIdxNKNSearch(1);
+            std::vector<float> pointObstNKNSquaredDistance(1,std::numeric_limits<float>::max());
+            noWall_kdtree_.nearestKSearch(obst_point, 1, pointObstIdxNKNSearch, pointObstNKNSquaredDistance);
+            const pcl::PointXYZRGBNormal& noWall_point = noWall_pcl_[pointObstIdxNKNSearch[0]];
+            float dist2_obst_point = distSquared(noWall_point,obst_point);
+            
+            // if obstacle point is not close to a non-wall one => consider it 
+            if(dist2_obst_point>kObstDist2DiscardIfCloseToNoWall)  
+#endif                 
+            {
+                dist_obst_pcl_squared = pointNKNSquaredDistance[0];
+                dist_squared = std::min(dist_squared, dist_obst_pcl_squared);
+                //std::cout << "TravAnalyzer::computeClearance() - dist_obst_pcl_squared : " <<  dist_obst_pcl_squared << std::endl;
+            }
         }
     }
 
@@ -622,6 +642,7 @@ void TravAnalyzer::setObstPcl(const sensor_msgs::PointCloud2& obst_pcl_msg)
     pcl::fromROSMsg(obst_pcl_msg, obst_pcl_);
 
     b_set_ost_pcl_ = true;
+    //std::cout << "TravAnalyzer::setObstPcl()" << std::endl; 
 }
 
 void TravAnalyzer::checkObstPclUpdate()
@@ -634,6 +655,7 @@ void TravAnalyzer::checkObstPclUpdate()
     if (elapsed_time_since_last_message.toSec() > kObstPclResetTime)
     {
         b_set_ost_pcl_ = false;
+        //std::cout << "TravAnalyzer::checkObstPclUpdate() - reset!" << std::endl; 
     }
     else
     {

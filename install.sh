@@ -60,6 +60,7 @@ rosdep update
 rosdep install --from-paths mapping_ws/src --ignore-src -r
 rosdep install --from-paths patrolling_ws/src --ignore-src -r
 
+sudo apt-get install -y cmake-extras     # https://bugs.launchpad.net/ubuntu/+source/googletest/+bug/1644062
 
 sudo apt-get install -y python-rosinstall python-rospkg
 sudo apt-get install -y ros-$ROS_DISTRO-octomap-mapping ros-$ROS_DISTRO-octomap-msgs ros-$ROS_DISTRO-octomap-ros ros-$ROS_DISTRO-octomap-server
@@ -79,11 +80,18 @@ sudo apt-get install -y libnss3-dev
 
 sudo apt-get install -y liboctomap-dev
 sudo apt-get install -y protobuf-compiler libgoogle-glog-dev
+sudo apt-get install -y googletest google-mock 
 
+# compile google-test dev   from https://stackoverflow.com/questions/24295876/cmake-cannot-find-googletest-required-library-in-ubuntu
+sudo apt-get install -y libgtest-dev
+cd /usr/src/googletest
+sudo cmake .
+sudo cmake --build . --target install
+cd - 
 
 # these are necessary for the qt application with PyQt5
 sudo apt-get install -y python3-pip 
-pip3 install PyQt5 --user
+pip3 install pyqt5==5.14.0 --user  # issues with newest PyQt5 https://stackoverflow.com/questions/59711301/install-pyqt5-5-14-1-on-linux
 
 if [[ $version == *"18.04"* ]] ; then
 	sudo apt-get install -y libcanberra-gtk-module libcanberra-gtk3-module

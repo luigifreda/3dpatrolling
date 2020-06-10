@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
   trajectory_control_msgs
   robot_trajectory_saver_msgs
+  patrolling_build_graph_msgs
 )
 
 ## System dependencies are found with CMake's conventions

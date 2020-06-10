@@ -33,7 +33,8 @@ if [ ! -f src/CMakeLists.txt ]; then
 	catkin_init_workspace
 	cd ..	
 fi
-catkin_make -DCMAKE_BUILD_TYPE=Release
+#catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin build -DCMAKE_BUILD_TYPE=Release
 cd $PATROLLING3D_HOME
 
 

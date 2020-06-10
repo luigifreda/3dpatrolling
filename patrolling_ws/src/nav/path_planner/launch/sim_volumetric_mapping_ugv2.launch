@@ -8,10 +8,13 @@
         
     <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
     
-      <include file="$(find path_planner)/launch/sim_volumetric_mapping_ugv1.launch" >
-          <arg name="respawn_value" value="$(arg respawn_value)" />
-          <arg name="robot_name" value="$(arg robot_name)" />
-          <arg name="use_laser_assembler" value="$(arg use_laser_assembler)" />
-      </include>
+    <arg name="tf_cache_length" default="40." />
+    
+    <include file="$(find path_planner)/launch/sim_volumetric_mapping_ugv1.launch" >
+        <arg name="respawn_value" value="$(arg respawn_value)" />
+        <arg name="robot_name" value="$(arg robot_name)" />
+        <arg name="use_laser_assembler" value="$(arg use_laser_assembler)" />
+        <arg name = "tf_cache_length" value = "$(arg tf_cache_length)" />
+    </include>
 
 </launch>

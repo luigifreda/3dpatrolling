@@ -15,7 +15,7 @@ inline uint64_t voxelBinaryKey(const PointT& p, double leaf_size, uint8_t key_si
     iy <<= bpp;
     iz <<= bpp;
     iz <<= bpp;
-    uint64_t ret = ix | iy | iz;
+    const uint64_t ret = ix | iy | iz;
     return ret;
 }
 

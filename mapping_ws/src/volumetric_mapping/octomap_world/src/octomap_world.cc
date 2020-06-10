@@ -944,7 +944,7 @@ bool OctomapWorld::checkCollisionWithRobot(
 }
 
 bool OctomapWorld::checkPathForCollisionsWithRobot(
-    const std::vector<Eigen::Vector3d>& robot_positions,
+    const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& robot_positions,
     size_t* collision_index) {
   // Iterate over vector of poses.
   // Check each one.
@@ -973,7 +973,7 @@ bool OctomapWorld::checkSinglePoseCollision(
 }
 
 void OctomapWorld::getChangedPoints(
-    std::vector<Eigen::Vector3d>* changed_points,
+    std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >* changed_points,
     std::vector<bool>* changed_states) {
   CHECK_NOTNULL(changed_points);
   // These keys are always *leaf node* keys, even if the actual change was in

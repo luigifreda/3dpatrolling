@@ -105,6 +105,9 @@ struct OctomapParameters {
 class OctomapWorld : public WorldBase {
   typedef std::shared_ptr<OctomapWorld> Ptr;
 
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW    
+  
  public:
 
   static const float kMinTanAngleForFreeVoxelLineOfSight;
@@ -180,7 +183,7 @@ class OctomapWorld : public WorldBase {
   // Checks a path (assumed to be time-ordered) for collision.
   // Sets the second input to the index at which the collision occurred.
   virtual bool checkPathForCollisionsWithRobot(
-      const std::vector<Eigen::Vector3d>& robot_positions,
+      const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& robot_positions,
       size_t* collision_index);
 
   // Serialization and deserialization from ROS messages.
@@ -205,7 +208,7 @@ class OctomapWorld : public WorldBase {
   // occupied, 0 is free.
   // IMPORTANT NOTE: change_detection MUST be set to true in the parameters in
   // order for this to work!
-  void getChangedPoints(std::vector<Eigen::Vector3d>* changed_points,
+  void getChangedPoints(std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >* changed_points,
                         std::vector<bool>* changed_states);
 
   void coordToKey(const Eigen::Vector3d& coord, octomap::OcTreeKey* key) const;

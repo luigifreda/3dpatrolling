@@ -19,10 +19,10 @@ DynamicJoinPcl:
   ransac_min_inliers: 4
   stddev_mul_thresh: 1.0
 NormalEstimationPcl:
-  flatness_curvature_threshold: 0.2
+  flatness_curvature_threshold: 0.4
   kernel_type: 0
   laser_frame: /laser
-  num_threads: 4
+  num_threads: 2
   radius: 0.2
   smoothing: 1.0
 TravAnal:

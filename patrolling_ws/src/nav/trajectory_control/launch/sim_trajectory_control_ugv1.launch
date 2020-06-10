@@ -28,16 +28,17 @@
         <param name = "global_frame_id" value = "/map"/>
         <param name = "robot_frame_id" value = "/$(arg robot_name)/base_link"/>
 	
-        <param name = "displacement" value = "0.1"/>
+        <param name = "displacement" value = "0.05"/>
         <param name = "control_frequency" value = "15" />
         <param name = "vel_reference" value = "0.2" />
         <param name = "vel_max_tracks" value = "1"/>
-	      
-        <param name = "gain_k1_IOL" value = "1"/>
-        <param name = "gain_k2_IOL" value = "1"/>
-        <param name = "gain_k1_NL" value = "2.0"/> <!-- was 1.5 -->
-        <param name = "gain_k2_NL" value = "2.0"/> <!-- was 1.5 -->
-        <param name = "gain_kw" value = "1.5"/> <!-- was 1 -->
+	   
+        <param name = "control_law_type" value = "0"/>   <!-- 0: input output feedback linearization; 1: non-linear control -->                 
+        <param name = "gain_k1_IOL" value = "1.5"/> <!-- was 1.0 -->
+        <param name = "gain_k2_IOL" value = "1.5"/> <!-- was 1.0 -->
+        <param name = "gain_k1_NL" value = "1.5"/> <!-- was 1.5 -->
+        <param name = "gain_k2_NL" value = "1.5"/> <!-- was 1.5 -->
+        <param name = "gain_kw" value = "3.5"/> <!-- was 1 -->
 
         <param name = "fl_frame_id" value = "/$(arg robot_name)/front_left_flipper"/>
         <param name = "fr_frame_id" value = "/$(arg robot_name)/front_right_flipper"/>
@@ -64,6 +65,9 @@
      
         <remap from = "/laser_proximity_topic" to = "/$(arg simulator)/$(arg robot_name)/laser_proximity_topic"/>
         <remap from = "/closest_obst_point"    to = "/$(arg simulator)/$(arg robot_name)/closest_obst_point"/>
+
+        <remap from = "/cmd_vel"        to = "/$(arg simulator)/$(arg robot_name)/cmd_vel"/>              
+        <remap from = "/nav/cmd_vel"    to = "/$(arg simulator)/$(arg robot_name)/cmd_vel"/>        
 
         <!--<remap from = "/mux_cmd_vel/acquire" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/acquire" />-->
         <!--<remap from = "/mux_cmd_vel/release" to = "/$(arg simulator)/$(arg robot_name)//mux_cmd_vel/release" />-->

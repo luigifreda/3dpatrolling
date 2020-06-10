@@ -14,8 +14,8 @@
     <param name = "tf_frame" value = "/map" />
     <param name = "robot_frame" value = "/$(arg robot_name)/base_link" />
     <param name = "resolution" value = "0.075" />
-    <param name = "map_publish_frequency" value = "0.3" />
-    <param name = "sensor_max_range" value = "20.0" />
+    <param name = "map_publish_frequency" value = "1.0" />   <!-- was 0.3 -->
+    <param name = "sensor_max_range" value = "20.0" />  
     <!-- <param name = "Q" value = "" /> -->
     <!-- <param name = "octomap_file" value = "" /> -->
     <param name = "probability_hit" value = "0.75" />

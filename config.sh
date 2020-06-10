@@ -22,7 +22,7 @@ session_name=$1
 command_string=${@:2}
 #screen -dmS session_name -Lc file_init  
 screen -dmS $session_name -L  
-screen -S $session_name -X stuff $"source $SOURCE_FILE; $command_string \n"   
+screen -S $session_name -L -X stuff $"source $SOURCE_FILE; $command_string \n"   
 }
 
 function open_xterm(){

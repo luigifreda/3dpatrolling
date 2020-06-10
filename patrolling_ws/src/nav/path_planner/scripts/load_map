@@ -49,7 +49,7 @@ check_status
 # save the map in the volumetric mapping system of each robot (for independent volumetric mapping systems)
 for i in `seq 1 $NUM_ROBOTS`;
 do
-	echo "trying to save ugv$i map"
+	echo "trying to load ugv$i map"
 	rosservice call /volumetric_mapping_ugv$i/load_map "file_path: '$DEST_FOLDER/map_ugv$i.bt'"
 	check_status
 done

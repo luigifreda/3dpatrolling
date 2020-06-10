@@ -12,7 +12,7 @@
 
     <node name="queue_path_planner_$(arg robot_name)" pkg="path_planner" type="queue_path_planner" respawn="$(arg respawn_value)" output="screen">
 
-		<param name = "lambda_trav" value="$(arg lambda_trav)"/>  
+	<param name = "lambda_trav" value="$(arg lambda_trav)"/>  
         <param name = "robot_frame_name" value = "/$(arg robot_name)/base_link"/>
 
         <remap from = "/clustered_pcl/wall" to = "/$(arg simulator)/$(arg robot_name)/clustered_pcl/wall"/>

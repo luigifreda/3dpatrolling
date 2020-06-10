@@ -52,7 +52,7 @@ const double TrajectoryControlActionServer::kDefaultControlGainK1_IOL = 0.3; // 
 const double TrajectoryControlActionServer::kDefaultControlGainK2_IOL = 0.3; // default control gain k2
 const double TrajectoryControlActionServer::kDefaultControlGainK1_NL = 0.3; // default control gain k1 
 const double TrajectoryControlActionServer::kDefaultControlGainK2_NL = 0.3; // default control gain k2
-const double TrajectoryControlActionServer::kDefaultAngularGainKw = 0.2; // default control angular gain kw: a pure rotatation control is applied if the angular error is above kRefAngularErrorForPureRotationControl
+const double TrajectoryControlActionServer::kDefaultAngularGainKw = 0.2; // default control angular gain kw: a pure rotation control is applied if the angular error is above kRefAngularErrorForPureRotationControl
 const double TrajectoryControlActionServer::kRefAngularErrorForPureRotationControl = M_PI / 4;
 const double TrajectoryControlActionServer::kRefXYErrorForPureRotationControl = 0.5;
 
@@ -179,6 +179,9 @@ b_use_teleop_mux_service_(false)
     teleop_mux_service_release_name_ = getParam<std::string>(param_node_, "teleop_mux_service_release_name", "/mux_cmd_vel/release");
 
     b_use_teleop_mux_service_ = getParam<bool>(param_node_, "use_teleop_mux", true);
+    
+    //control_law_type_ = (ControlLawType) kNonLinear;//kDefaultControlLaw;    
+    control_law_type_ = (ControlLawType) getParam<int>(param_node_, "control_law_type", kDefaultControlLaw);    
 
     /// < setup subcribers 
     imu_odom_sub_ = node_.subscribe(imu_odom_topic_, 1, &TrajectoryControlActionServer::imuOdomCallback, this);
@@ -243,8 +246,6 @@ b_use_teleop_mux_service_(false)
 
     local_path_msg_.header.frame_id = global_frame_id_;
     local_path_msg_.header.stamp = ros::Time::now();
-
-    control_law_type_ = (ControlLawType) kNonLinear;//kDefaultControlLaw;
     
     b_closest_obst_vel_reduction_enable_ = true;
     
@@ -741,10 +742,6 @@ double TrajectoryControlActionServer::computeControlLawNonLin(const tf::StampedT
     }
     else
     {
-#ifdef VERBOSE
-        std::cout << "computeControlLawNonLin() - normal control - 2D err:  " << error_xy << std::endl;
-#endif
-
         double cyaw = cos(yaw);
         double syaw = sin(yaw);
 
@@ -754,10 +751,18 @@ double TrajectoryControlActionServer::computeControlLawNonLin(const tf::StampedT
 
         double vd = sqrt(ref_vel.linear.x * ref_vel.linear.x + ref_vel.linear.y * ref_vel.linear.y);
 
-        double k3 = k1;
+        //double k3 = k1;
+        
+        // from https://www.dis.uniroma1.it/~labrob/pub/papers/Ramsete01.pdf
+        double zita = 0.7;  // 
+        double k3 = k1 = 2*zita*sqrt(ref_vel.angular.z*ref_vel.angular.z + k2*vd*vd);
 
         double u1 = -k1 * e1;
         double u2 = -k2 * vd * sinc(e3) * e2 - k3*e3;
+        
+#ifdef VERBOSE
+        std::cout << "computeControlLawNonLin() - normal control - 2D err:  " << error_xy << ", k1=k3: " << k1 << std::endl;
+#endif        
 
         linear_vel  = vd * cos(e3) - u1;
         angular_vel = ref_vel.angular.z - u2;
@@ -1152,6 +1157,8 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
             tracks_cmd.right = 0;
             tracks_vel_cmd_pub_.publish(tracks_cmd);
 
+            sendVelCommands(tracks_cmd, 0, 0); 
+
             act_server_.setPreempted();
 
             planning_feedback_msg.status = STATUS_FAILURE;
@@ -1282,6 +1289,7 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
     {
         ROS_INFO("Trajectory Control: %s: timeout!", action_name.c_str());
         planning_feedback_msg.status = STATUS_FAILURE;
+        sendVelCommands(tracks_cmd, 0, 0); 
     }
 
     if (b_done)
@@ -1313,6 +1321,7 @@ void TrajectoryControlActionServer::executeCallback(const trajectory_control_msg
 
             ROS_INFO("Trajectory Control: final 3D error %f", final_3D_error);
             ROS_INFO("Trajectory Control: final 2D error %f", final_2D_error);
+            sendVelCommands(tracks_cmd, 0, 0); 
 
         }
 

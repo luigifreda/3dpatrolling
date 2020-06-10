@@ -52,6 +52,13 @@ OctomapManager::OctomapManager(const ros::NodeHandle& nh,
       Q_(Eigen::Matrix4d::Identity()),
       full_image_size_(752, 480),
       map_publish_frequency_(0.0) {
+    
+  tf_cache_length_ = 30.;  
+  nh_private_.param("tf_cache_length", tf_cache_length_, tf_cache_length_);  
+  p_tf_listener_ = boost::make_shared<tf::TransformListener>(ros::Duration(tf_cache_length_));
+
+  time0_ = ros::Time::now();   
+    
   setParametersFromROS();
   subscribe();
   advertiseServices();
@@ -188,6 +195,8 @@ void OctomapManager::subscribe() {
       "disparity", 40, &OctomapManager::insertDisparityImageWithTf, this);
   pointcloud_sub_ = nh_.subscribe(
       "pointcloud", 40, &OctomapManager::insertPointcloudWithTf, this);
+  pointcloud2_sub_ = nh_.subscribe(
+      "pointcloud2", 20, &OctomapManager::insertPointcloudWithTf, this);  // 20 instead of 40 in order to give an higher priority to pcls coming from "pointcloud"
   octomap_sub_ =
       nh_.subscribe("input_octomap", 1, &OctomapManager::octomapCallback, this);
 }
@@ -285,7 +294,7 @@ void OctomapManager::publishAll() {
       pcl::toROSMsg(point_cloud, cloud);
       cloud.header.frame_id = world_frame_;
       cloud.header.stamp = ros::Time::now();
-      nearest_obstacle_pub_.publish(cloud);
+      nearest_obstacle_pub_.publish(cloud); 
     }
   }
 }
@@ -363,12 +372,12 @@ bool OctomapManager::loadOctomapInFrameCallback(
       return false;
     }
     // Transform point cloud with frame.
-    if (tf_listener_.waitForTransform(world_frame_, request.frame,
+    if (p_tf_listener_->waitForTransform(world_frame_, request.frame,
                                       ros::Time::now(),
                                       ros::Duration(2.0))) {
 
       tf::StampedTransform tf_transform;
-      tf_listener_.lookupTransform(world_frame_, request.frame,
+      p_tf_listener_->lookupTransform(world_frame_, request.frame,
                                    ros::Time(0), tf_transform);
 
       Transformation transform;
@@ -457,6 +466,9 @@ void OctomapManager::calculateQ() {
 
 void OctomapManager::insertDisparityImageWithTf(
     const stereo_msgs::DisparityImageConstPtr& disparity) {
+    
+  boost::recursive_mutex::scoped_lock locker(interaction_mutex);
+  
   if (!Q_initialized_) {
     ROS_WARN_THROTTLE(
         1, "No camera info available yet, skipping adding disparity.");
@@ -473,6 +485,10 @@ void OctomapManager::insertDisparityImageWithTf(
 
 void OctomapManager::insertPointcloudWithTf(
     const sensor_msgs::PointCloud2::ConstPtr& pointcloud) {
+    
+  boost::recursive_mutex::scoped_lock locker(interaction_mutex);
+  ROS_INFO_STREAM("OctomapManager::insertPointcloudWithTf() - Got new pointcloud from " << pointcloud->header.frame_id << " - time " << (ros::Time::now()-time0_).toSec());    
+    
   // Look up transform from sensor frame to world frame.
   Transformation sensor_to_world;
   if (lookupTransform(pointcloud->header.frame_id, world_frame_,
@@ -503,9 +519,9 @@ bool OctomapManager::lookupTransformTf(const std::string& from_frame,
   // If this transform isn't possible at the time, then try to just look up
   // the latest (this is to work with bag files and static transform publisher,
   // etc).
-  if (!tf_listener_.canTransform(to_frame, from_frame, time_to_lookup)) {
+  if (!p_tf_listener_->canTransform(to_frame, from_frame, time_to_lookup)) {
     ros::Duration timestamp_age = ros::Time::now() - time_to_lookup;
-    if (timestamp_age < tf_listener_.getCacheLength()) {
+    if (timestamp_age < p_tf_listener_->getCacheLength()) {
       time_to_lookup = ros::Time(0);
       ROS_WARN("Using latest TF transform instead of timestamp match.");
     } else {
@@ -515,7 +531,7 @@ bool OctomapManager::lookupTransformTf(const std::string& from_frame,
   }
 
   try {
-    tf_listener_.lookupTransform(to_frame, from_frame, time_to_lookup,
+    p_tf_listener_->lookupTransform(to_frame, from_frame, time_to_lookup,
                                  tf_transform);
   } catch (tf::TransformException& ex) {
     ROS_ERROR_STREAM(

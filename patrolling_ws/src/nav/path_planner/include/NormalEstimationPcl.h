@@ -49,6 +49,8 @@
 #include <Eigen/Eigenvalues>
 
 #include <cmath>
+#include <deque>
+#include <atomic>
 
 #include "KdTreeFLANN.h"
 #include "Transform.h"
@@ -57,6 +59,16 @@
 
 using namespace path_planner;
 
+typedef std::atomic<bool> atom_bool;
+typedef std::vector<atom_bool> atom_bool_vec; 
+
+///	\class NormalEstimationPcl
+///	\author Luigi Freda and Alcor Lab
+///	\brief Class for computing normals 
+///	\note 
+/// 	\todo 
+///	\date
+///	\warning
 template<typename PointT>
 class NormalEstimationPcl
 {
@@ -64,9 +76,12 @@ class NormalEstimationPcl
     static const float kLaserZOffset; // [m] how much each laser view point is pushed higher
     static const float kLaserZWrtBody; // [m] actual delta_z between laser view point and base_link
     static const int kMinNumNeighboursForComputingNormal; // minimum number of neighbours for computing the normal 
+    static const int kMaxNumNeighboursForComputingNormal; // minimum number of neighbours for computing the normal     
     
     static const float kTrajDownsampleDistance;
     static const float kTrajDownsampleDistance2;
+    
+    static const float kMinCosToPropagate; 
     
 public:     
     
@@ -80,6 +95,7 @@ public:
     ~NormalEstimationPcl();
     
     void computeNormals(PointCloudT& pcl, KdTreeT& kdtree, const pcl::PointXYZ& center);
+    void computeNormalsByDirectionPropagation(PointCloudT& pcl, KdTreeT& kdtree, const pcl::PointXYZ& center);    
 
 public: ///  < setters     
     
@@ -124,11 +140,13 @@ protected:
     void computeCovarianceMatrix(const PointCloudT& neighbors, const pcl::PointXYZ& center, Eigen::Matrix3f& covariance_matrix);
 
     // Compute one normal for a given point i
-    bool computeNormal(const size_t i, const size_t begin, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, std::vector<bool>& done, const pcl::PointXYZ& center);
+    bool computeNormal(const size_t i, const size_t begin, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, atom_bool_vec& done, atom_bool_vec& propagate, const pcl::PointXYZ& center);
 
     // Compute normals in a given range
-    void computeNormalsInRange(const size_t num_thread, const size_t start, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, std::vector<bool>& done, const pcl::PointXYZ& center);
+    void computeNormalsInRange(const size_t num_thread, const size_t start, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, atom_bool_vec& done, atom_bool_vec& propagate, const pcl::PointXYZ& center);
 
+    void computeNormalsInQueue(const size_t num_thread, const size_t start, const size_t end, PointCloudT& pcl, KdTreeT& kdtree, atom_bool_vec& done, atom_bool_vec& propagate, const pcl::PointXYZ& center);
+    
     // Add a new laser center to the laser trajectory 
     void addPointToLaserTraj(const pcl::PointXYZ& center, const int robot_id = 0); 
     
@@ -149,7 +167,7 @@ protected:
     PointCloudT pcl_prev_map_trajectory_;  // previously built map trajectory
     KdTreeT kdtree_laser_centers_;
     
-    PointT last_laser_center_[kMaxNumberOfRobots];
+    std::vector<PointT> last_laser_center_;
     
     std::vector<size_t> closest_laser_point_idx_; 
     
@@ -160,6 +178,11 @@ protected:
     std::string teammate_base_link_frame_[kMaxNumberOfRobots]; 
     
     boost::shared_ptr<Transform> p_transform_teammate_;    
+    
+    boost::recursive_mutex kdtree_mutex_;    
+    
+    std::deque<size_t> queue_; 
+    boost::recursive_mutex queue_mutex_;      
     
 protected:
     

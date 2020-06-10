@@ -12,15 +12,23 @@
     <arg name="octomap_cloud_in" default="/$(arg simulator)/$(arg robot_name)/scan_point_cloud_color" unless="$(arg use_laser_assembler)"/>
     <arg name="octomap_cloud_in" default="/$(arg simulator)/$(arg robot_name)/dynamic_point_cloud" if="$(arg use_laser_assembler)"/>
     
+    <arg name="octomap_cloud_in2" default="/$(arg simulator)/$(arg robot_name)/volumetric_mapping/pointcloud2"/>   <!-- used for receiving teammate scans -->
+    
     <arg name="pcl_out" default="/volumetric_mapping/octomap_pcl" />
     
+    <arg name="tf_cache_length" default="40." />
+        
     <!-- octomap_manager from volumetric_mapping package -->
-    <node name="volumetric_mapping_$(arg robot_name)" pkg="octomap_world" type="octomap_manager"  respawn="$(arg respawn_value)" >
+    <node name="volumetric_mapping_$(arg robot_name)" pkg="octomap_world" type="octomap_manager"  respawn="$(arg respawn_value)"  output="screen" >
+        <param name = "tf_cache_length" value = "$(arg tf_cache_length)" />
         <param name = "tf_frame" value = "/map" />
         <param name = "robot_frame" value = "/$(arg robot_name)/base_link" />
-        <param name = "resolution" value = "0.075" />
-        <param name = "map_publish_frequency" value = "0.3" />
-        <param name = "sensor_max_range" value = "20.0" />
+        <param name = "resolution" value = "0.075" /> <!-- was 0.075, decreased to 0.08 for exploration -->
+        
+        <param name = "latch_topics" value = "false" /> <!-- in order to avoid recomputing all the visualization markers when there are no subscribers -->
+        
+        <param name = "map_publish_frequency" value = "1.0" />  <!-- was 0.3 -->
+        <param name = "sensor_max_range" value = "15.0" />  <!-- was 20, decreased to 15 for exploration and decreasing memory load -->
         <!-- <param name = "Q" value = "" /> -->
         <!-- <param name = "octomap_file" value = "" /> -->
         <param name = "probability_hit" value = "0.75" />
@@ -36,10 +44,11 @@
         <!-- <param name = "full_image_height" value = "" /> -->
         <!-- <param name = "treat_unknown_as_occupied" value = "true" /> -->
         <!-- <param name = "change_detection_enabled" value = "false" /> -->
-        <param name = "dynamics_detection_enabled" value = "true" />
+        <!-- param name = "dynamics_detection_enabled" value = "true" /> -->
         
         <!-- Input -->
         <remap from = "pointcloud" to = "$(arg octomap_cloud_in)" />
+        <remap from = "pointcloud2" to = "$(arg octomap_cloud_in2)" />        
         
         <!-- Output -->
         <remap from = "/volumetric_mapping_$(arg robot_name)/octomap_pcl" to = "/$(arg simulator)/$(arg robot_name)/local_map" />

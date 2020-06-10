@@ -45,10 +45,12 @@ int main(int argc, char *argv[])
     QueuePathPlanner planner;
 
     // ros loop
-    //ros::spin();
-    
-    ros::MultiThreadedSpinner spinner(4); // Use 4 threads
+#if 1    
+    ros::spin();
+#else    
+    ros::MultiThreadedSpinner spinner(2); // Use 2-4 threads
     spinner.spin(); // spin() will not return until the node has been shutdown
+#endif     
 
     return 0;
 }

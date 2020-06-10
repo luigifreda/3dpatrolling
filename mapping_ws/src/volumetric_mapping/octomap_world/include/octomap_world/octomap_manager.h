@@ -30,6 +30,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef OCTOMAP_WORLD_OCTOMAP_MANAGER_H_
 #define OCTOMAP_WORLD_OCTOMAP_MANAGER_H_
 
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/recursive_mutex.hpp>
+
 #include <glog/logging.h>
 #include <gflags/gflags.h>
 
@@ -50,7 +53,7 @@ namespace volumetric_mapping {
 
 // An inherited class from OctomapWorld, which also handles the connection to
 // ROS via publishers, subscribers, service calls, etc.
-class OctomapManager : public OctomapWorld {
+class OctomapManager : public OctomapWorld, private boost::noncopyable {
  public:
   typedef std::shared_ptr<OctomapManager> Ptr;
 
@@ -100,6 +103,10 @@ class OctomapManager : public OctomapWorld {
 
   void transformCallback(const geometry_msgs::TransformStamped& transform_msg);
 
+public: 
+    
+   boost::recursive_mutex interaction_mutex; // mutex to be locked for multi-thread interaction 
+   
  private:
   // Sets up subscriptions based on ROS node parameters.
   void setParametersFromROS();
@@ -123,7 +130,10 @@ class OctomapManager : public OctomapWorld {
   ros::NodeHandle nh_;
   ros::NodeHandle nh_private_;
 
-  tf::TransformListener tf_listener_;
+  //tf::TransformListener tf_listener_;
+  boost::shared_ptr<tf::TransformListener> p_tf_listener_;  
+  double tf_cache_length_; // [s]
+  
 
   // Global/map coordinate frame. Will always look up TF transforms to this
   // frame.
@@ -145,6 +155,7 @@ class OctomapManager : public OctomapWorld {
   ros::Subscriber left_info_sub_;
   ros::Subscriber right_info_sub_;
   ros::Subscriber pointcloud_sub_;
+  ros::Subscriber pointcloud2_sub_;  
   ros::Subscriber octomap_sub_;
 
   // Only used if use_tf_transforms_ set to false.
@@ -186,6 +197,8 @@ class OctomapManager : public OctomapWorld {
 
   // Transform queue, used only when use_tf_transforms is false.
   std::deque<geometry_msgs::TransformStamped> transform_queue_;
+  
+  ros::Time time0_;
 };
 
 }  // namespace volumetric_mapping

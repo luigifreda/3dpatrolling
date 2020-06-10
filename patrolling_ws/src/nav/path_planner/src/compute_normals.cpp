@@ -43,10 +43,19 @@ ros::Publisher pcl_pub;
 
 ros::ServiceClient robot_traj_service_client;
 
+boost::recursive_mutex compute_mutex;
+
 std::string robot_frame_name;
 std::string laser_frame_name;
 std::string global_frame_name;
 std::string robot_traj_service_name;
+
+ros::Timer normals_task_timer;
+const double kNormalsTaskCallbackPeriod =  1.0;  // [s] the period of the task callback 
+const double kNormalsTaskComputePeriod =  2.0;  // [s] the period between to normals computation 
+pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr pcl_shared = 0;
+ros::Time lastCallTime;
+ros::Time time0;
 
 bool b_first_config = true;
 bool b_first_time = true;
@@ -67,21 +76,57 @@ T getParam(ros::NodeHandle& n, const std::string& name, const T& defaultValue)
 
 void visualizeNormals(pcl::PointCloud<pcl::PointXYZRGBNormal>& pcl_norm)
 {
-    geometry_msgs::PoseArray poseArray;
-    makeNormalsMarkers(pcl_norm, poseArray);
-    ROS_INFO("normals poseArray size: %ld", poseArray.poses.size());
-    marker_normal_pub.publish(poseArray);
+    if(marker_normal_pub.getNumSubscribers() > 0)    
+    {
+        geometry_msgs::PoseArray poseArray;
+        makeNormalsMarkers(pcl_norm, poseArray);
+        ROS_INFO("normals poseArray size: %ld", poseArray.poses.size());
+        marker_normal_pub.publish(poseArray);
+    }
+}
+
+void computeAndPublishNormals()
+{
+    boost::recursive_mutex::scoped_lock locker(compute_mutex); 
+    
+    ROS_INFO_STREAM("computeAndPublishNormals() - time: " << (ros::Time::now()-time0).toSec());    
+    NormalEstimationPclConfig normal_config = normal_estimator.getConfig();
+    
+    if (pcl_shared && pcl_shared->size() > 0)
+    {
+        pcl::PointCloud<pcl::PointXYZRGBNormal> pcl_out;
+            
+        /// < normal estimation
+        pp::KdTreeFLANN<pcl::PointXYZRGBNormal> kdtree;
+        kdtree.setInputCloud(pcl_shared);
+        tf::Transform t;
+        pcl::PointXYZ laser_center;
+        conv_pcl.getLastTransform(t);
+        conv_pcl.getFrameOrigin(normal_config.laser_frame, laser_center);
+        normal_estimator.computeNormals(*pcl_shared, kdtree, laser_center);
+        std::vector<int> index;
+        pcl::removeNaNNormalsFromPointCloud(*pcl_shared, pcl_out, index);
+
+        //colorNormalsPCL(map_pcl);
+        visualizeNormals(pcl_out);
+        sensor_msgs::PointCloud2 msg_out;
+        pcl::toROSMsg(pcl_out, msg_out);
+        pcl_pub.publish(msg_out);
+        
+        lastCallTime = ros::Time::now();   
+        ROS_INFO_STREAM("computeAndPublishNormals() - lastCallTime: " << (lastCallTime-time0).toSec());           
+    }    
 }
 
 void pointCloudCallback(const sensor_msgs::PointCloud2& pcl_msg)
 {
-    ROS_INFO("Received a new PointCloud2 message");
+    boost::recursive_mutex::scoped_lock locker(compute_mutex);    
+    
+    std::cout << std::endl; 
+    ROS_INFO_STREAM("compute normals - Received a new PointCloud2 message ");
 
     NormalEstimationPclConfig normal_config = normal_estimator.getConfig();
-
-    std::cout << "laser frame: " << normal_config.laser_frame << std::endl;
-    std::cout << "num threads: " << normal_config.num_threads << std::endl;
-
+    
     if (b_first_time)
     {
         b_first_time = false;
@@ -106,29 +151,29 @@ void pointCloudCallback(const sensor_msgs::PointCloud2& pcl_msg)
 
     }
 
-    // downsample
     pcl::PointCloud<pcl::PointXYZRGBNormal> pcl_in;
-    pcl::PointCloud<pcl::PointXYZRGBNormal> pcl_out;
     conv_pcl.transform(pcl_msg, pcl_in);
+    pcl_shared = pcl_in.makeShared();
+        
+    std::cout << "laser frame: " << normal_config.laser_frame << std::endl;
+    std::cout << "num threads: " << normal_config.num_threads << std::endl;    
+    std::cout << "pcl size: " << pcl_in.size() << std::endl;    
+    
+        
+    // N.B.: when a new pcl arrives this must be always called in order to provide the most updated information 
+    computeAndPublishNormals();    
+}
 
-    if (pcl_in.size() > 0)
-    {
-        /// < normal estimation
-        pp::KdTreeFLANN<pcl::PointXYZRGBNormal> kdtree;
-        kdtree.setInputCloud(pcl_in.makeShared());
-        tf::Transform t;
-        pcl::PointXYZ laser_center;
-        conv_pcl.getLastTransform(t);
-        conv_pcl.getFrameOrigin(normal_config.laser_frame, laser_center);
-        normal_estimator.computeNormals(pcl_in, kdtree, laser_center);
-        std::vector<int> index;
-        pcl::removeNaNNormalsFromPointCloud(pcl_in, pcl_out, index);
-
-        //colorNormalsPCL(map_pcl);
-        visualizeNormals(pcl_out);
-        sensor_msgs::PointCloud2 msg_out;
-        pcl::toROSMsg(pcl_out, msg_out);
-        pcl_pub.publish(msg_out);
+//  triggered asynchronously by a ros::Timer 
+void normalsTaskCallback(const ros::TimerEvent& timer_msg)
+{  
+    boost::recursive_mutex::scoped_lock locker(compute_mutex);  
+    
+    //ROS_INFO_STREAM("normalsTaskCallback");    
+    double elapsedTimeSinceLastUpdate = (ros::Time::now() - lastCallTime).toSec();
+    if(elapsedTimeSinceLastUpdate > kNormalsTaskComputePeriod)
+    {     
+        computeAndPublishNormals();
     }
 }
 
@@ -162,6 +207,8 @@ int main(int argc, char **argv)
     tf::TransformListener tf_listener(ros::Duration(10.0));
 
     ros::NodeHandle n("~");
+    
+    time0 = ros::Time::now();
 
     /// < get parameters
     std::string str_robot_name   = getParam<std::string>(n, "robot_name", "ugv1");   /// < multi-robot
@@ -205,6 +252,11 @@ int main(int argc, char **argv)
 
     /// < Services 
     robot_traj_service_client = n.serviceClient<robot_trajectory_saver_msgs::GetRobotTrajectories>(robot_traj_service_name);
+    
+    /// < Timers 
+#if 0    
+    normals_task_timer = n.createTimer(ros::Duration(kNormalsTaskCallbackPeriod), normalsTaskCallback); // the timer will automatically fire at startup        
+#endif     
 
     ros::spin();
     return 0;
