@@ -4,8 +4,10 @@
 
 **Maintainer: [Luigi Freda](https://www.luigifreda.com)** 
 
-
 This repository provides part of the C++ implementation behind our paper titled **3D Multi-Robot Patrolling with a Two-Level Coordination Strategy**. The software allows testing the proposed multi-robot strategy within a [V-REP](http://www.coppeliarobotics.com/) simulation environment. The multi-robot laser SLAM implementation is available [here](https://github.com/ethz-asl/laser_slam).   
+
+**News [2023-07-10]**: Check out our most recent [paper](https://arxiv.org/abs/2307.02417) and the related project [3DMR](https://github.com/luigifreda/3dmr): 
+**3D Multi-Robot Exploration, Patrolling, and Navigation.**
 
 ### Related publications
 
