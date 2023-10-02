@@ -6,8 +6,8 @@
 
 This repository provides part of the C++ implementation behind our paper titled **3D Multi-Robot Patrolling with a Two-Level Coordination Strategy**. The software allows testing the proposed multi-robot strategy within a [V-REP](http://www.coppeliarobotics.com/) simulation environment. The multi-robot laser SLAM implementation is available [here](https://github.com/ethz-asl/laser_slam).   
 
-**News**: Check out our new [paper](https://arxiv.org/abs/2307.02417) and the related project [3DMR](https://github.com/luigifreda/3dmr): 
-**3D Multi-Robot Exploration, Patrolling, and Navigation.**
+**NEW**: Check out our new [paper](https://arxiv.org/abs/2307.02417) and the related project [3DMR](https://github.com/luigifreda/3dmr): 
+**3D Multi-Robot Exploration, Patrolling, and Navigation.** [3DMR](https://github.com/luigifreda/3dmr) extends and improves **[3dpatrolling](https://github.com/luigifreda/3dpatrolling)**. [Here](https://github.com/luigifreda/3dmr/blob/main/new_features.md), you can find a list of new features we added. 
 
 ### Related publications
 
@@ -31,8 +31,7 @@ alt="V-REP simulation 3dpatrolling" height="150" border="1" /> <img src="images/
 ## Prerequisites
 
 3dpatrolling requires **ROS**. We designed and tested the framework under **Ubuntu 14.04**. We recently ported it on **Ubuntu 16.04**  and **18.04**. It should be easy to compile the framework in other platforms. 
-
-**NEW** [September 2019]: installation successfully tested on **Ubuntu 18.04**. 
+**NEW**: check out our new project [3DMR](https://github.com/luigifreda/3dmr) for **Ubuntu 20.04** support.
 
 ---
 ## How to install and compile 3dpatrolling
